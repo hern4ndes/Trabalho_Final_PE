@@ -2,32 +2,52 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Estruturas
+//Estruturas
 typedef struct{
 	int dia;
 	int mes;
 	int ano;
 }tdata;
-typedef struct {
+typedef struct{
 	char cpf[12];
-	char nome[100];
+	char nome[100]; //Nome de funcionario!
 	tdata dt_adm;
 	tdata dt_nasc;
 	int cargo;
 	int dept;
 }tFuncionario;
+typedef struct{
+	char nome[100]; //Nome de departamento!
+	int cod; //Codigo do departamento
+	int quant; //Quantidade de funcionarios do departamento
+}tDepartamento;
+//Variaveis Globais
+tFuncionario func[150];
+int prox[150];
+int controle[1][150];
 
-// Prototipo de funcoes
+//Prototipo de funcoes
+    // Menus                        ====
 int menuPrincipal();
 int menuFuncionario();
 int menuDepartamento();
-int validaDatas(int d, int m, int a);
+    // Funcoes do Menu Funcionario  ====
 int cadastarFuncionario(tFuncionario func[150], int cont);
+void alterarDados(); //Nao implementado
+void trasnferir();   //Nao implementado
+void demitir();      //Nao implementado
+void listarTodos();  //Nao implementado
+void listarPorDept();//Nao implementado
+    // Funcoes do Menu Departamento ====
+int criarDept();     //Nao implementado
+void alterarDept();  //Nao implementado
+void consultarDept();//Nao implementado
+void listarDept();   //Nao implementado
+void excluirDept();  //Nao implementado
 
-// Main
+//Main
 int main (){
 	system ("title Gerenciador de Funcionários - Trab. Final PE");
-	tFuncionario func[150];
 	//int prox[150];
 	int i;
 	int respP, respF, respD;
@@ -51,13 +71,15 @@ int main (){
 								printf ("  CPF: %s\n  Nome: %s\n  Data de Admissao: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  Codigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, func[i].cargo, func[i].dept);
 								printf ("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
 	   	   	   	   				}
+	   	   	   	   				system ("pause");
+								system ("clear || cls");
 	   	   	   	   				break; //LISTAR TODOS
 	   	   				case 6: break; //LISTAR POR DEPARTAMENTO
             			case 0: break; //SAIR
             			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
 					}
    			        break;
-            case 2: respD=menuDepartamento(); //ANRIR MENU DEPARTAMENTO
+            case 2: respD=menuDepartamento(); //ABRIR MENU DEPARTAMENTO
             		switch (respD){
 						case 1: break; //CRIAR DEPT
 						case 2: break; //ALTERAR NOME DEPT
