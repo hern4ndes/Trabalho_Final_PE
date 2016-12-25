@@ -17,7 +17,7 @@ typedef struct {
 	int dept;
 }tFuncionario;
 
-// Protótipo de funções
+// Prototipo de funcoes
 int menuPrincipal();
 int menuFuncionario();
 int menuDepartamento();
