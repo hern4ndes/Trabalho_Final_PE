@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+// Estruturas
 typedef struct{
 	int dia;
 	int mes;
 	int ano;
 }tdata;
-
 typedef struct {
 	char cpf[12];
 	char nome[100];
@@ -17,108 +17,201 @@ typedef struct {
 	int dept;
 }tFuncionario;
 
-//***FUNCAO MENU***
-int menu(){
+// Protótipo de funções
+int menuPrincipal();
+int menuFuncionario();
+int menuDepartamento();
+int validaDatas(int d, int m, int a);
+int cadastarFuncionario(tFuncionario func[150], int cont);
+
+// Main
+int main (){
+	system ("title Gerenciador de Funcionários - Trab. Final PE");
+	tFuncionario func[150];
+	//int prox[150];
+	int i;
+	int respP, respF, respD;
+	int cont=0, cont2;
+	char cpf[12];
+	do{
+		respP=menuPrincipal();
+		switch (respP){
+			case 1: respF=menuFuncionario(); //ABRIR MENU FUNCIONARIO
+					switch (respF){
+						case 1: cont2 = cadastarFuncionario(func, cont);
+								cont++;
+   			        			break; //CADASTRAR
+            			case 2: break; //ALTERAR DADOS
+            			case 3: printf ("Digite o CPF do funcion%crio: ", 160);
+								scanf ("%s", cpf);								
+								break; //TRANSFERIR
+						case 4: break; //DEMITIR 
+						case 5: printf ("Lista de funcion%crios cadastrados:\n", 160);
+								for (i=0;i<cont;i++){
+								printf ("  CPF: %s\n  Nome: %s\n  Data de Admissao: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  Codigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, func[i].cargo, func[i].dept);
+								printf ("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
+	   	   	   	   				}
+	   	   	   	   				break; //LISTAR TODOS
+	   	   				case 6: break; //LISTAR POR DEPARTAMENTO
+            			case 0: break; //SAIR
+            			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
+					}
+   			        break;
+            case 2: respD=menuDepartamento(); //ANRIR MENU DEPARTAMENTO
+            		switch (respD){
+						case 1: break; //CRIAR DEPT
+						case 2: break; //ALTERAR NOME DEPT
+						case 3: break; //CONSULTAR DEPT
+						case 4: break; //LISTAR DEPT;
+						case 5: break; //EXCLUIR DEPT
+						case 0: break; //SAIR
+					}
+            		
+					break;
+            case 0: break; //SAIR
+            default: system ("clear || cls");
+					 printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
+					 
+		}
+	}while(respP!=0);
+	return 0;
+}
+
+// Funções
+int menuPrincipal(){
 	int resp;
-	printf("\n\tMENU\n\n1. Cadastrar funcion%crio\n2. Demitir funcion%crio\n3. Transferir funcion%crio de departamento\n", 160, 160, 160);
-	printf("4. Listar geral (Fun%c%co para Testes)\n\n",135, 198);
-	printf("0. Sair\n");
+	printf("\t\tMenu Principal\n\n1. Funcion%crio\n2. Departamento\n0. Sair\nDigite uma op%c%co do menu: ", 160, 135, 198);
+	scanf("%d", &resp);
+	return resp;
+}
+int menuFuncionario(){
+	int resp;
+	system ("clear || cls");
+	printf("\n\t\tMenu Funcion%crio\n\n1. Cadastrar funcion%crio\n2. Alterar dados do funcion%crio\n3. Transferir funcion%crio de departamento\n",160, 160, 160, 160);
+	printf("4. Demitir Funcion%crio\n5. Listar todos os funcion%crios\n6. Listar todos de um departamento\n", 160, 160);
+	printf("0. Sair\n\n");
 	printf("Digite uma op%c%co do menu: ", 135, 198);
 	scanf("%d", &resp);
 	system ("cls || clear" );
     return resp;
+}
+int menuDepartamento(){
+	int resp;
+	system ("clear || cls");
+	printf("\n\t\tMenu Departamento\n\n1. Criar Departamento\n2. Alterar nome do Departamento\n3. Consultar Departamento\n4. Listar Departamentos\n5. Excluir Departamento\n0. Sair\n\n");
+	printf("Digite uma op%c%co do menu: ", 135, 198);
+	scanf("%d", &resp);
+	system ("cls || clear" );
+    return resp;
+}
 
-}
-/*
-***FUNCAO PESQUISAR E TRANSFERIR***
-int pesquisar (char cpf, int cont){
-	int i, novoDept;
-	for (i=0;i<cont;i++){
-		if (strcmp(cpf, cpf2)==0){
-			printf ("Para qual departamento voc%c deseja transferir?", 136);
-			scanf ("%d", &novoDept);
-		}
-	}
-}
-*/
-//***FUNCAO CADASTRAR FUNCIONRIO***
 int cadastarFuncionario(tFuncionario func[150], int cont){
-	int i; i=cont;
-	//ATENCAO
-	//TUDO TRANSFORMADO EM COMENTARIO PRA FACILITAR O DESENVOLVIMENTO DO ALGORITIMO
-	//DA MATRIZ PROX E CONTROLE
-/*	
-	printf ("1. Cadastrar novo funcion%crio na base de dados\nPreencha os dados que se pedem a seguir\n\n", 160);
-	do{
-		printf ("CPF: ");
-		scanf ("%s", &func[i].cpf);
-	
-		if(strlen(func[i].cpf) != 11){
-		   	printf("Digite um CPF valido\n");
-		}
-	}while(strlen(func[i].cpf)!=11);
+	int i;
+	int rsp;
+	int d, m ,a;
+	i=cont;
+	printf ("1. Cadastrar novo funcion%crio\nPreencha os dados que se pedem a seguir\n\n", 160);
+	printf ("CPF: ");
+	scanf ("%s", &func[i].cpf);
 	printf ("Nome Completo: ");
 	scanf (" %100[^\n]s", &func[i].nome);
-	Suponhamos que o que valida as datas sao os anos iguais... Bebes nao trabalham!
-	do{
+	// Trecho abaixo: Recebe e valida das datas =========================
+ 	do{
+ 		rsp=0;
 		printf ("Data de Admiss%co: ", 198);
 		scanf ("%d%d%d", &func[i].dt_adm.dia, &func[i].dt_adm.mes, &func[i].dt_adm.ano);
+		d=func[i].dt_adm.dia;
+		m=func[i].dt_adm.mes;
+		a=func[i].dt_adm.ano;
+		if((a>=1900)&&(a<=2100)){
+			if((m>=1)&&(m<=12)){
+				if((m==1)||(m==3)||(m==5)||(m==7)||(m==8)||(m==10)||(m==12)){
+					if((d>=1)&&(d<=31)){
+						rsp=1;
+					}
+				}
+				if((m==4)||(m==6)||(m==9)||(m==11)){
+					if((d>=1)&&(d<=30)){
+						rsp=1;
+					}
+				}
+				if((m==2)&&(a%4!=0)){
+					if((d>=1)&&(d<=28)){
+						rsp=1;
+					}
+				}
+				if((m==2)&&(a%4==0)&&(a%100!=0)){
+					if((d>=1)&&(d<=29)){
+						rsp=1;
+					}
+				}
+				if((m==2)&&(a%4==0)&&(a%100==0)&&(a%400==0)){
+					if((d>=1)&&(d<=29)){
+						rsp=1;
+					}
+				} else{
+					if((d>=1)&&(d<=28)){
+						rsp=1;
+					}
+				}
+			}
+		}
+		if (rsp==0){
+			printf ("Data inv%clida! Digite novamente\n", 160);
+		}
+	} while (rsp==0);
+	do{
+ 		rsp=0;
 		printf ("Data de Nascimento: ");
 		scanf ("%d%d%d", &func[i].dt_nasc.dia, &func[i].dt_nasc.mes, &func[i].dt_nasc.ano);
-		if (func[i].dt_adm.ano==func[i].dt_nasc.ano){
-			printf ("Parece que a data de nascimento e/ou de admiss%co est%co erradas.\n", 198, 198);
-			printf ("O ano de admiss%co %c o mesmo do nascimento? Tente novamente.\n\n", 198, 130);
+		d=func[i].dt_nasc.dia;
+		m=func[i].dt_nasc.mes;
+		a=func[i].dt_nasc.ano;
+		if((a>=1900)&&(a<=2100)){
+			if((m>=1)&&(m<=12)){
+				if((m==1)||(m==3)||(m==5)||(m==7)||(m==8)||(m==10)||(m==12)){
+					if((d>=1)&&(d<=31)){
+						rsp=1;
+					}
+				}
+				if((m==4)||(m==6)||(m==9)||(m==11)){
+					if((d>=1)&&(d<=30)){
+						rsp=1;
+					}
+				}
+				if((m==2)&&(a%4!=0)){
+					if((d>=1)&&(d<=28)){
+						rsp=1;
+					}
+				}
+				if((m==2)&&(a%4==0)&&(a%100!=0)){
+					if((d>=1)&&(d<=29)){
+						rsp=1;
+					}
+				}
+				if((m==2)&&(a%4==0)&&(a%100==0)&&(a%400==0)){
+					if((d>=1)&&(d<=29)){
+						rsp=1;
+					}
+				} else{
+					if((d>=1)&&(d<=28)){
+						rsp=1;
+					}
+				}
+			}
 		}
-	}while(func[i].dt_adm.ano==func[i].dt_nasc.ano);
-	
+		if (rsp==0){
+			printf ("Data inv%clida! Digite novamente\n", 160);
+		}
+	} while (rsp==0);
+	//================================================================================
 	printf ("C%cdigo do cargo a ser designado: ", 162);
 	scanf ("%d", &func[i].cargo);
-	*/
-	/*Sao ate 10 departamentos. Entao ele valida de 1 a 10*/
-	do{
-		printf ("Departamento a ser designado: ");
-		scanf ("%d", &func[i].dept);
-		if(func[i].dept>=11){
-			printf("S%co at%c 10 departamentos. Verifique o n%cmero digitado.\n", 198, 130, 163);
-		}
-	}while(func[i].dept>=11);
+	printf ("Departamento a ser designado: ");
+	scanf ("%d", &func[i].dept);
 	system ("cls || clear");
 	printf ("Usu%crio cadastrado. Verifique os dados que voc%c digitou:\n", 160, 136);
-//	printf ("  CPF: %s\n  Nome: %s\n  Data de Admiss%co: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  C%cdigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, 198, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, 162, func[i].cargo, func[i].dept);
-	printf ("Funcion%crio indice: %d\nDEPARTAMENTO: %d", 160, i, func[i].dept);
+	printf ("  CPF: %s\n  Nome: %s\n  Data de Admiss%co: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  C%cdigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, 198, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, 162, func[i].cargo, func[i].dept);
+	printf ("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n", 160, i, func[i].dept);
 	return 1;
-}
-
-int main (){
-	system ("title Gerenciador de Funcionários - Trab. Final PE");
-	tFuncionario func[150];
-	int prox[150];
-	int i;
-	int resp;
-	int cont=0, cont2;
-	char cpf[12];
-	do{
-		resp=menu();
-		switch (resp){
-			case 1: cont2 = cadastarFuncionario(func, cont);
-					cont++;
-   			        break;
-            case 2: break; //Não definido ainda
-            case 3: printf ("Digite o CPF do funcion%crio: ", 160);
-					scanf ("%s", cpf[12]);
-					
-					//pesquisar (cpf, cont);
-								
-					break;
-            case 4: printf ("Lista de funcion%crios cadastrados:\n", 160);
-					for (i=0;i<cont;i++){
-						//printf ("  CPF: %s\n  Nome: %s\n  Data de Admissao: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  Codigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, func[i].cargo, func[i].dept);
-						printf ("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
-	   	   	   	   	}
-	   	   	   	   	break;
-            case 0: break;
-            default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
-		}
-	}while(resp!=0);
-	return 0;
 }
