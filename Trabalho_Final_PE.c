@@ -8,6 +8,7 @@ typedef struct{
 	int mes;
 	int ano;
 }tdata;
+
 typedef struct{
 	char cpf[12];
 	char nome[100]; //Nome de funcionario!
@@ -16,22 +17,28 @@ typedef struct{
 	int cargo;
 	int dept;
 }tFuncionario;
+
 typedef struct{
 	char nome[100]; //Nome de departamento!
 	int cod; //Codigo do departamento
 	int quant; //Quantidade de funcionarios do departamento
 }tDepartamento;
 
+<<<<<<< HEAD
 //Variaveis Globais
+=======
+		//Variaveis Globais
+>>>>>>> origin/master
 tFuncionario func[150];
 int prox[150];
 int controle[1][150];
 
-//Prototipo de funcoes
+		//Prototipo de funcoes
     // Menus                        ====
 int menuPrincipal();
 int menuFuncionario();
 int menuDepartamento();
+
     // Funcoes do Menu Funcionario  ====
 int cadastarFuncionario(tFuncionario func[150], int cont);
 void alterarDados(); //Nao implementado
@@ -48,12 +55,21 @@ void excluirDept();  //Nao implementado
 
 //Main
 int main (){
-	system ("title Gerenciador de Funcionários - Trab. Final PE");
+	system ("title Gerenciador de Funcionï¿½rios - Trab. Final PE");
 	//int prox[150];
 	int i;
 	int respP, respF, respD;
 	int cont=0, cont2;
 	char cpf[12];
+	
+	FILE *funcionario;
+    fp = fopen ("README", "w");
+    if (fp == NULL) {
+       printf ("Houve um erro ao abrir o arquivo.\n");
+       return 1;
+    }
+    printf ("Arquivo README criado com sucesso.\n");
+    fclose (fp);
 	do{
 		respP=menuPrincipal();
 		switch (respP){
@@ -64,6 +80,7 @@ int main (){
    			        			break; //CADASTRAR
             			case 2: break; //ALTERAR DADOS
             			case 3: printf("Digite o CPF do funcion%crio: ", 160);
+<<<<<<< HEAD
 								scanf("%s", cpf);								
 								break; //TRANSFERIR
 						case 4: break; //DEMITIR 
@@ -73,6 +90,27 @@ int main (){
 								break; //LISTAR POR DEPARTAMENTO
             			case 0: break; //SAIR
             			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
+=======
+								scanf("%s", cpf);
+								break; //TRANSFERIR
+						case 4: break; //DEMITIR
+						case 5: printf ("Lista de funcion%crios cadastrados:\n", 160);
+								for (i=0;i<cont;i++){
+								printf("CPF: %s\n",func[i].cpf);
+								printf("Nome: %s\n",func[i].nome);
+								printf("Data de Admissao: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes, func[i].dt_adm.ano );
+								printf("Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano);
+								printf("Codigo do Cargo: %d\n",func[i].cargo);
+								printf("Departamento: %d\n", func[i].dept );
+								printf ("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
+	   	   	   	   				}
+	   	   	   	   				system ("pause");
+								system ("clear || cls");
+	   	   	   	   				break; //LISTAR TODOS
+	   	   		case 6: break; //LISTAR POR DEPARTAMENTO
+            case 0: break; //SAIR
+            default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
+>>>>>>> origin/master
 					}
    			        break;
             case 2: respD=menuDepartamento(); //ABRIR MENU DEPARTAMENTO
@@ -84,19 +122,24 @@ int main (){
 						case 5: break; //EXCLUIR DEPT
 						case 0: break; //SAIR
 					}
-            		
+
 					break;
             case 0: break; //SAIR
             default: system ("clear || cls");
 					 printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
-					 
+
 		}
 	}while(respP!=0);
 	return 0;
 }
 
+<<<<<<< HEAD
 // Funções
 int menuPrincipal(){ //FUNCAO QUE EXIBE O MENU PRINCIPAL
+=======
+// Funï¿½ï¿½es
+int menuPrincipal(){
+>>>>>>> origin/master
 	int resp;
 	printf("\t\tMenu Principal\n\n1. Funcion%crio\n2. Departamento\n0. Sair\nDigite uma op%c%co do menu: ", 160, 135, 198);
 	scanf("%d", &resp);
@@ -111,7 +154,7 @@ int menuFuncionario(){ //FUNCAO QUE EXIBE O MENU FUNCIONARIO
 	printf("Digite uma op%c%co do menu: ", 135, 198);
 	scanf("%d", &resp);
 	system ("cls || clear" );
-    return resp;
+    return resp;	
 }
 void listarTodos(int cont){ //FUNCAO QUE LISTA TODOS OS FUNCIONARIOS
 	int i;
@@ -150,6 +193,7 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 	scanf ("%s", &func[i].cpf);
 	printf ("Nome Completo: ");
 	scanf (" %100[^\n]s", &func[i].nome);
+	setbuf(stdin, NULL); // limpa o buffer que tem armazenado um enter pos o scanf leu ate o enter, e esse fica para o proximo sacan
 	// Trecho abaixo: Recebe e valida das datas =========================
  	do{
  		rsp=0;
