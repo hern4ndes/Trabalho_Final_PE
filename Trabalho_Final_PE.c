@@ -21,6 +21,7 @@ typedef struct{
 	int cod; //Codigo do departamento
 	int quant; //Quantidade de funcionarios do departamento
 }tDepartamento;
+
 //Variaveis Globais
 tFuncionario func[150];
 int prox[150];
@@ -36,8 +37,8 @@ int cadastarFuncionario(tFuncionario func[150], int cont);
 void alterarDados(); //Nao implementado
 void trasnferir();   //Nao implementado
 void demitir();      //Nao implementado
-void listarTodos();  //Nao implementado
-void listarPorDept();//Nao implementado
+void listarTodos(int cont);
+void listarPorDept(int cont);//Nao implementado
     // Funcoes do Menu Departamento ====
 int criarDept();     //Nao implementado
 void alterarDept();  //Nao implementado
@@ -62,19 +63,14 @@ int main (){
 								cont++;
    			        			break; //CADASTRAR
             			case 2: break; //ALTERAR DADOS
-            			case 3: printf ("Digite o CPF do funcion%crio: ", 160);
-								scanf ("%s", cpf);								
+            			case 3: printf("Digite o CPF do funcion%crio: ", 160);
+								scanf("%s", cpf);								
 								break; //TRANSFERIR
 						case 4: break; //DEMITIR 
-						case 5: printf ("Lista de funcion%crios cadastrados:\n", 160);
-								for (i=0;i<cont;i++){
-								printf ("  CPF: %s\n  Nome: %s\n  Data de Admissao: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  Codigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, func[i].cargo, func[i].dept);
-								printf ("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
-	   	   	   	   				}
-	   	   	   	   				system ("pause");
-								system ("clear || cls");
+						case 5: listarTodos(cont);
 	   	   	   	   				break; //LISTAR TODOS
-	   	   				case 6: break; //LISTAR POR DEPARTAMENTO
+	   	   				case 6: listarPorDept(cont);
+								break; //LISTAR POR DEPARTAMENTO
             			case 0: break; //SAIR
             			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
 					}
@@ -100,13 +96,13 @@ int main (){
 }
 
 // Funções
-int menuPrincipal(){
+int menuPrincipal(){ //FUNCAO QUE EXIBE O MENU PRINCIPAL
 	int resp;
 	printf("\t\tMenu Principal\n\n1. Funcion%crio\n2. Departamento\n0. Sair\nDigite uma op%c%co do menu: ", 160, 135, 198);
 	scanf("%d", &resp);
 	return resp;
 }
-int menuFuncionario(){
+int menuFuncionario(){ //FUNCAO QUE EXIBE O MENU FUNCIONARIO
 	int resp;
 	system ("clear || cls");
 	printf("\n\t\tMenu Funcion%crio\n\n1. Cadastrar funcion%crio\n2. Alterar dados do funcion%crio\n3. Transferir funcion%crio de departamento\n",160, 160, 160, 160);
@@ -117,7 +113,24 @@ int menuFuncionario(){
 	system ("cls || clear" );
     return resp;
 }
-int menuDepartamento(){
+void listarTodos(int cont){ //FUNCAO QUE LISTA TODOS OS FUNCIONARIOS
+	int i;
+	printf ("Lista de funcion%crios cadastrados:\n", 160);
+	for (i=0;i<cont;i++){
+		printf("  CPF: %s\n  Nome: %s\n  Data de Admissao: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  Codigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, func[i].cargo, func[i].dept);
+		printf("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
+	}
+}
+void listarPorDept(int cont){ //FUNCAO QUE LISTA TODOS OS FUNCIONARIOS
+	int i;
+	printf ("Lista de funcion%crios deste departamento:\nessa funcao ainda nao funciona", 160);
+	for (i=0;i<cont;i++){
+		printf("  CPF: %s\n  Nome: %s\n  Data de Admissao: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  Codigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, func[i].cargo, func[i].dept);
+		printf("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
+	}	
+}
+
+int menuDepartamento(){ //FUNCAO QUE EXIBE O MENU DEPARTAMENTO
 	int resp;
 	system ("clear || cls");
 	printf("\n\t\tMenu Departamento\n\n1. Criar Departamento\n2. Alterar nome do Departamento\n3. Consultar Departamento\n4. Listar Departamentos\n5. Excluir Departamento\n0. Sair\n\n");
