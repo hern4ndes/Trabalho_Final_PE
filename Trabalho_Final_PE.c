@@ -1,4 +1,4 @@
-/*                ESTRTURA DO PROGRAMA
+/*                ESTRTURA DO CODIGO-FONTE
  * - Estruturas
  * - Variaveis/Matrizes/Vetores Globais
  * - Funcoes
@@ -62,7 +62,7 @@ int controle[1][11];
  */
 int menuRelatorio(){
 	int resp;
-	printf("\t\tMenu Relatorio\n\n");
+	printf("\n\t\tMenu Relatorio\n\n");
 	printf("1. Funcionario\n");
 	printf("2. Departamento\n");
 	printf("0. Sair\n");
@@ -81,7 +81,7 @@ int menuFuncionario(){
 	printf("1. Cadastrar funcionario\n");
 	printf("2. Alterar dados do funcionario\n");
 	printf("3. Transferir funcionario de departamento\n");
-	printf("n4. Demitir Funcionario\n");
+	printf("4. Demitir Funcionario\n");
 	printf("5. Listar todos os funcionarios\n");
 	printf("6. Listar todos de um departamento\n");
 	printf("0. Sair\n\n");
@@ -124,10 +124,14 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 		scanf ("%d", &func[i].dept);
 		printf ("\nFuncionario cadastrado com sucesso. Confira os dados:\n");
 		mostrarDados(i);
-		printf ("\nDeseja cadastrar outro funcionario?\n1-Sim\n2-Nao, obrigado.\nR= ");
+		printf ("\nDeseja cadastrar outro funcionario?\n1-Sim\n2-Nao, obrigado.\n");
+		printf ("Digite sua resposta: ");
 		scanf ("%d", &resp);
+		if (resp==2){
+			system ("clear||cls");
+		}
 	} while (resp==1);
-	return 1;
+	return cont;
 }
 /*
  *     1.2 Funcao Alterar dados do funcionario: Alterar dados do funcionario
@@ -136,13 +140,13 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 		  //IMPLEMENTACAO
 		  //
 /*
- *     1.3 Fun��o Transferir Funcionario de Departmento: Altera o departamento
+ *     1.3 Funcao Transferir Funcionario de Departmento: Altera o departamento
  */
           //
 		  //IMPLEM8ENTACAO
 		  //
 /*
- *     1.4 Fun��o Demitir funcionario: Apaga o funcionario dos dados
+ *     1.4 Funcao Demitir funcionario: Apaga o funcionario dos dados
  */
           //
 		  //IMPLEMENTACAO
