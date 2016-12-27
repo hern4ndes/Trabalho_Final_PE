@@ -97,15 +97,7 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 	scanf ("%d", &func[i].cargo);
 	printf ("Departamento a ser designado: ");
 	scanf ("%d", &func[i].dept);
-	printf ("Usuario cadastrado. Verifique os dados que voce digitou:\n");
-	printf("CPF: %s\n", func[i].cpf);
-	printf("Nome: %s\n",func[i].nome);
-	printf("Data de Admiss%co: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
-	printf("Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
-	printf("Codigo do Cargo: %d\n",func[i].cargo);
-	printf("Departamento: %d\n\n\n",func[i].dept);
-	printf ("Funcionario indice: %d\n", i);
-	printf("DEPARTAMENTO: %d\n", func[i].dept);
+	mostrarDados(i);
 	return 1;
 }
 /*
@@ -118,7 +110,7 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
  *     1.3 Fun��o Transferir Funcionario de Departmento: Altera o departamento
  */
           //
-		  //IMPLEMENTACAO
+		  //IMPLEM8ENTACAO
 		  //
 /*
  *     1.4 Fun��o Demitir funcionario: Apaga o funcionario dos dados
@@ -129,12 +121,23 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 /*
  *     1.5 Funcao Listar Todos: Lista todos os funcionarios de um departamento
  */
+void  mostrarDados(int i) {
+	printf("CPF: %s\n", func[i].cpf);
+	printf("Nome: %s\n",func[i].nome);
+	printf("Data de Admiss%co: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
+	printf("Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
+	printf("Codigo do Cargo: %d\n",func[i].cargo);
+	printf("Departamento: %d\n\n\n",func[i].dept);
+	printf ("Funcionario indice: %d\n", i);
+	printf("DEPARTAMENTO: %d\n", func[i].dept);
+	/* code */
+}
 void listarTodos(int cont){
 	int i;
 	printf ("Lista de funcion%crios cadastrados:\n", 160);
 	for (i=0;i<cont;i++){
-		printf("  CPF: %s\n  Nome: %s\n  Data de Admissao: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  Codigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, func[i].cargo, func[i].dept);
-		printf("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
+		mostrarDados(i);
+
 	}
 }
 /*
