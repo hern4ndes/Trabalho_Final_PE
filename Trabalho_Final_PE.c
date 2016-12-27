@@ -98,6 +98,7 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 	printf ("Departamento a ser designado: ");
 	scanf ("%d", &func[i].dept);
 	mostrarDados(i);
+	system ("cls || clear" );
 	return 1;
 }
 /*
@@ -124,7 +125,7 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 void  mostrarDados(int i) {
 	printf("CPF: %s\n", func[i].cpf);
 	printf("Nome: %s\n",func[i].nome);
-	printf("Data de Admiss%co: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
+	printf("Data de Admissao: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
 	printf("Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
 	printf("Codigo do Cargo: %d\n",func[i].cargo);
 	printf("Departamento: %d\n\n\n",func[i].dept);
@@ -137,6 +138,7 @@ void listarTodos(int cont){
 	printf ("Lista de funcion%crios cadastrados:\n", 160);
 	for (i=0;i<cont;i++){
 		mostrarDados(i);
+		
 
 	}
 }
@@ -223,7 +225,7 @@ int valida_data(int dia, int mes, int ano){
 
 /*               MAIN               */
 int main (){
-	system ("title Gerenciador de Funcion�rios - Trab. Final PE");
+	
 	int i;
 	int respP, respF, respD;
 	int cont=0, cont2;
