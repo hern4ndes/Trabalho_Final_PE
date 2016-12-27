@@ -1,3 +1,26 @@
+/*                ESTRTURA DO PROGRAMA
+ * - Estruturas
+ * - Variaveis/Matrizes/Vetores Globais
+ * - Funcoes
+ *   - Funcao Menu Relatorio
+ *     - Funcao Menu Funcionario
+ *       - Cadastar
+ *       - Alterar
+ *       - Transferir
+ *       - Demitir
+ *       - Listar Geral
+ *       - Listar por departamento
+ *     - Funcao Menu Funcionario
+ *       - Criar
+ *       - Alterar
+ *       - Listar
+ *       - Consultar
+ *       - Excluir
+ * - Outras funcoes
+ *   - Valida Datas
+ * - Main
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -71,23 +94,23 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 	printf ("Nome Completo: ");
 	scanf (" %100[^\n]s", &func[i].nome);
  	do{
- 		rsp=0;
+ 		resp=0;
 		printf ("Data de Admiss%co: ", 198);
 		scanf ("%d%d%d", &func[i].dt_adm.dia, &func[i].dt_adm.mes, &func[i].dt_adm.ano);
 		resp=valida_data(func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano);
-		if (rsp==0){
+		if (resp==0){
 			printf ("Data inv%clida! Digite novamente\n", 160);
 		}
-	} while (rsp==0);
+	} while (resp==0);
 	do{
- 		rsp=0;
+ 		resp=0;
 		printf ("Data de Nascimento: ");
 		scanf ("%d%d%d", &func[i].dt_nasc.dia, &func[i].dt_nasc.mes, &func[i].dt_nasc.ano);
 		resp=valida_data(func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano);
-		if (rsp==0){
+		if (resp==0){
 			printf ("Data inv%clida! Digite novamente\n", 160);
 		}
-	} while (rsp==0);
+	} while (resp==0);
 	printf ("C%cdigo do cargo a ser designado: ", 162);
 	scanf ("%d", &func[i].cargo);
 	printf ("Departamento a ser designado: ");
@@ -99,19 +122,19 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 	return 1;
 }
 /*
- *     1.2 Função Alterar dados do funcionario: Alterar dados do funcionario
+ *     1.2 Funcao Alterar dados do funcionario: Alterar dados do funcionario
  */
           //
 		  //IMPLEMENTACAO
 		  //
 /*
- *     1.3 Função Transferir Funcionario de Departmento: Altera o departamento
+ *     1.3 Funcao Transferir Funcionario de Departmento: Altera o departamento
  */
           //
 		  //IMPLEMENTACAO
 		  //
 /*
- *     1.4 Função Demitir funcionario: Apaga o funcionario dos dados
+ *     1.4 Funcao Demitir funcionario: Apaga o funcionario dos dados
  */
           //
 		  //IMPLEMENTACAO
@@ -128,7 +151,7 @@ void listarTodos(int cont){
 	}
 }
 /*
- * 1.6 Função Listar Por Departamento: Lista todos os funcionarios de um departamento.
+ * 1.6 Funcao Listar Por Departamento: Lista todos os funcionarios de um departamento.
  * Eh solicitado o codigo do departamento e eh listado os funcionarios.
  */
 void listarPorDept(int cont){
@@ -137,7 +160,7 @@ void listarPorDept(int cont){
 	for (i=0;i<cont;i++){
 		printf("  CPF: %s\n  Nome: %s\n  Data de Admissao: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  Codigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, func[i].cargo, func[i].dept);
 		printf("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
-	}	
+	}
 }
 /*
  * 2. Funcao Menu Departamento: Mostra as opcoes de Departamento
@@ -152,7 +175,7 @@ int menuDepartamento(){
     return resp;
 }
 /*
- *     2.1 Funcao Criar Departamento: Cria um Departamento 
+ *     2.1 Funcao Criar Departamento: Cria um Departamento
  */
           //
 		  //IMPLEMENTACAO
@@ -207,16 +230,16 @@ int valida_data(int dia, int mes, int ano){
                 return 0;
 		}
 }
-		  
+
 /*               MAIN               */
 int main (){
-	system ("title Gerenciador de Funcionários - Trab. Final PE");
+	system ("title Gerenciador de Funcionï¿½rios - Trab. Final PE");
 	int i;
 	int respP, respF, respD;
 	int cont=0, cont2;
 	char cpf[12];
+
 	
-	for(i=0;i<)
 	do{
 		respP=menuRelatorio();
 		switch (respP){
@@ -227,9 +250,9 @@ int main (){
    			        			break; //CADASTRAR
             			case 2: break; //ALTERAR DADOS
             			case 3: printf("Digite o CPF do funcion%crio: ", 160);
-								scanf("%s", cpf);								
+								scanf("%s", cpf);
 								break; //TRANSFERIR
-						case 4: break; //DEMITIR 
+						case 4: break; //DEMITIR
 						case 5: listarTodos(cont);
 	   	   	   	   				break; //LISTAR TODOS
 	   	   				case 6: listarPorDept(cont);
@@ -247,12 +270,12 @@ int main (){
 						case 5: break; //EXCLUIR DEPT
 						case 0: break; //SAIR
 					}
-            		
+
 					break;
             case 0: break; //SAIR
             default: system ("clear || cls");
 					 printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
-					 
+
 		}
 	}while(respP!=0);
 	return 0;
