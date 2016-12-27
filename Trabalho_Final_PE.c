@@ -29,7 +29,7 @@ typedef struct{
 /*     VARIAVEIS GLOBAIS (VETORES/MATRIZES)     */
 tFuncionario func[150];
 int prox[150];
-int controle[1][150];
+int controle[1][11];
 
 
 /*                    FUNCOES                   */
@@ -51,8 +51,8 @@ int menuFuncionario(){
 	int resp;
 	system ("clear || cls");
 	printf("\n\t\tMenu Funcionario\n\n1. Cadastrar funcionario\n2. Alterar dados do funcionario\n");
-	printf("3. Transferir funcion%crio de departamento\n4. Demitir Funcion%crio\n");
-	printf("5. Listar todos os funcion%crios\n6. Listar todos de um departamento\n0. Sair\n\n");
+	printf("3. Transferir funcionario de departamento\n4. Demitir Funcionario\n");
+	printf("5. Listar todos os funcionarios\n6. Listar todos de um departamento\n0. Sair\n\n");
 	printf("Digite uma opcao do menu: ");
 	scanf("%d", &resp);
 	system ("cls || clear" );
@@ -63,54 +63,18 @@ int menuFuncionario(){
  */
 int cadastarFuncionario(tFuncionario func[150], int cont){
 	int i;
-	int rsp;
-	int d, m ,a;
+	int resp;
 	i=cont;
 	printf ("1. Cadastrar novo funcion%crio\nPreencha os dados que se pedem a seguir\n\n", 160);
 	printf ("CPF: ");
-	scanf ("%s", &func[i].cpf);
+	scanf ("%s", &func[i].cpf[12]);
 	printf ("Nome Completo: ");
 	scanf (" %100[^\n]s", &func[i].nome);
  	do{
  		rsp=0;
 		printf ("Data de Admiss%co: ", 198);
 		scanf ("%d%d%d", &func[i].dt_adm.dia, &func[i].dt_adm.mes, &func[i].dt_adm.ano);
-		d=func[i].dt_adm.dia;
-		m=func[i].dt_adm.mes;
-		a=func[i].dt_adm.ano;
-		if((a>=1900)&&(a<=2100)){
-			if((m>=1)&&(m<=12)){
-				if((m==1)||(m==3)||(m==5)||(m==7)||(m==8)||(m==10)||(m==12)){
-					if((d>=1)&&(d<=31)){
-						rsp=1;
-					}
-				}
-				if((m==4)||(m==6)||(m==9)||(m==11)){
-					if((d>=1)&&(d<=30)){
-						rsp=1;
-					}
-				}
-				if((m==2)&&(a%4!=0)){
-					if((d>=1)&&(d<=28)){
-						rsp=1;
-					}
-				}
-				if((m==2)&&(a%4==0)&&(a%100!=0)){
-					if((d>=1)&&(d<=29)){
-						rsp=1;
-					}
-				}
-				if((m==2)&&(a%4==0)&&(a%100==0)&&(a%400==0)){
-					if((d>=1)&&(d<=29)){
-						rsp=1;
-					}
-				} else{
-					if((d>=1)&&(d<=28)){
-						rsp=1;
-					}
-				}
-			}
-		}
+		resp=valida_data(func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano);
 		if (rsp==0){
 			printf ("Data inv%clida! Digite novamente\n", 160);
 		}
@@ -119,42 +83,7 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
  		rsp=0;
 		printf ("Data de Nascimento: ");
 		scanf ("%d%d%d", &func[i].dt_nasc.dia, &func[i].dt_nasc.mes, &func[i].dt_nasc.ano);
-		d=func[i].dt_nasc.dia;
-		m=func[i].dt_nasc.mes;
-		a=func[i].dt_nasc.ano;
-		if((a>=1900)&&(a<=2100)){
-			if((m>=1)&&(m<=12)){
-				if((m==1)||(m==3)||(m==5)||(m==7)||(m==8)||(m==10)||(m==12)){
-					if((d>=1)&&(d<=31)){
-						rsp=1;
-					}
-				}
-				if((m==4)||(m==6)||(m==9)||(m==11)){
-					if((d>=1)&&(d<=30)){
-						rsp=1;
-					}
-				}
-				if((m==2)&&(a%4!=0)){
-					if((d>=1)&&(d<=28)){
-						rsp=1;
-					}
-				}
-				if((m==2)&&(a%4==0)&&(a%100!=0)){
-					if((d>=1)&&(d<=29)){
-						rsp=1;
-					}
-				}
-				if((m==2)&&(a%4==0)&&(a%100==0)&&(a%400==0)){
-					if((d>=1)&&(d<=29)){
-						rsp=1;
-					}
-				} else{
-					if((d>=1)&&(d<=28)){
-						rsp=1;
-					}
-				}
-			}
-		}
+		resp=valida_data(func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano);
 		if (rsp==0){
 			printf ("Data inv%clida! Digite novamente\n", 160);
 		}
@@ -252,6 +181,32 @@ int menuDepartamento(){
           //
 		  //IMPLEMENTACAO
 		  //
+
+/*          OUTRAS FUNCOES         */
+/*
+ * Funcao Valida Datas: Valida as datas que sao inseridas no programa
+ */
+int valida_data(int dia, int mes, int ano){
+    if ((dia>=1 && dia<=31)&&(mes>=1 && mes<=12)&&(ano>=1900 && ano<=2100))
+        {
+            if ((dia==29 && mes==2) && ((ano%4)==0)){
+                return 1;
+            }
+            if (dia<=28 && mes==2){
+                return 1;
+            }
+            if ((dia<=30) && (mes==4 || mes==6 || mes==9 || mes==11)){
+                return 1;
+            }
+            if ((dia<=31) && (mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10 || mes==12)){
+                return 1;
+            } else{
+                return 0;
+            }
+        } else{
+                return 0;
+		}
+}
 		  
 /*               MAIN               */
 int main (){
@@ -260,6 +215,8 @@ int main (){
 	int respP, respF, respD;
 	int cont=0, cont2;
 	char cpf[12];
+	
+	for(i=0;i<)
 	do{
 		respP=menuRelatorio();
 		switch (respP){
