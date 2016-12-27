@@ -101,7 +101,7 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 	printf("CPF: %s\n", func[i].cpf);
 	printf("Nome: %s\n",func[i].nome);
 	printf("Data de Admiss%co: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
-	printf("Data de Nascimento: %d/%d/%d\n",444func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
+	printf("Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
 	printf("Codigo do Cargo: %d\n",func[i].cargo);
 	printf("Departamento: %d\n\n\n",func[i].dept);
 	printf ("Funcionario indice: %d\n", i);
