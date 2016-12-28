@@ -53,6 +53,7 @@ typedef struct{
 tFuncionario func[150];
 int prox[150];
 int controle[1][11];
+tDepartamento dep[11];
 
 
 /*                    FUNCOES                   */
@@ -94,7 +95,7 @@ int menuFuncionario(){
  *     1.1 Funcao Cadastrar Funcionario: Cadastra um funcionario na base de dados.
  */
 int cadastarFuncionario(tFuncionario func[150], int cont){
-	int i;
+	int i, j;
 	i=cont;
 	int resp;
 	do{
@@ -122,6 +123,8 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 		scanf ("%d", &func[i].cargo);
 		printf ("Departamento a ser designado: ");
 		scanf ("%d", &func[i].dept);
+		
+		printf ("%d\n", func[i].dept);
 		printf ("\nFuncionario cadastrado com sucesso. Confira os dados:\n");
 		mostrarDados(i);
 		printf ("\nDeseja cadastrar outro funcionario?\n1-Sim\n2-Nao, obrigado.\n");
@@ -192,9 +195,13 @@ int menuDepartamento(){
 /*
  *     2.1 Funcao Criar Departamento: Cria um Departamento
  */
-          //
-		  //IMPLEMENTACAO
-		  //
+void criarDept(){
+	printf ("Criar Departamento\n\n");
+	printf ("Qual o codigo do departamento? ");
+	scanf ("%d", &dep[]);
+	printf ("");
+	scanf ("");
+}
 /*
  *     2.2 Funcao Alterar nome do Departamento: Altera o nome do departamento criado
  */
@@ -220,7 +227,7 @@ int menuDepartamento(){
 		  //IMPLEMENTACAO
 		  //
 
-/*          OUTRAS FUNCOES         */
+/*               OUTRAS FUNCOES              */
 /*
  * Funcao Valida Datas: Valida as datas que sao inseridas no programa
  */
@@ -263,8 +270,13 @@ int main (){
 	int respP, respF, respD;
 	int cont=0, cont2;
 	char cpf[12];
-
-
+	
+	//Atribuicoes incials
+	controle[0][0]=-1;
+	for(i=0;i<10;i++){
+		controle[0][1]=i+1;
+	}
+	
 	do{
 		respP=menuRelatorio();
 		switch (respP){
