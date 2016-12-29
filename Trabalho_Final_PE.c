@@ -125,10 +125,12 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 	scanf ("%d", &func[i].dept);
 	printf ("%d\n", func[i].dept);
 	system ("clear||cls");
-	
+
 	printf ("\nFuncionario cadastrado com sucesso. Confira os dados:\n");
 	mostrarDados(i);
-	
+	matrizControle(func[i].dept, i);
+
+
 	return cont;
 }
 /*
@@ -187,6 +189,21 @@ int menuDepartamento(){
 	system ("cls || clear" );
     return resp;
 }
+void testecontrole(){
+	int i = 0, j = 0;
+	for (i = 0; i <= 1; i++){
+		for (j = 0; j <= 10; j++) {
+			printf("%d ", controle[i][j]);
+		}
+		printf("\n");
+	}
+}
+void matrizControle(int dep, int func) {
+
+
+	controle[1][func] = func;
+
+}
 /*
  *     2.1 Funcao Criar Departamento: Cria um Departamento
  */
@@ -224,8 +241,8 @@ void criarDept(){
 		  //IMPLEMENTACAO
 		  //
 
-/*               OUTRAS FUNCOES              */
-/*
+/*               OUTRAS FUNCOES
+
  * Funcao Valida Datas: Valida as datas que sao inseridas no programa
  */
 int valida_data(int dia, int mes, int ano){
@@ -259,22 +276,93 @@ void listarTodos(int cont){
 		mostrarDados(i);
 	}
 }
-
+/*
 int menuAlterarFuncionario(){
 	char cpf[12];
+	int i;
+	int resp;
 	printf("Qual o CPF do funcionario? ");
-	scanf("")
+	scanf("%s", cpf);
+	for(i=0;i<150;i++){
+		strcmp(if (strcmp(func[i].cpf, cpf)==0){
+			do{
+				printf("MENU ALTERAR FUNCIONARIO (CPF: %s)\n\n", cpf);
+				printf("1. CPF\n");
+				printf("2. Nome\n");
+				printf("3. Data de Nascimento\n");
+				printf("4. Data de Admissao na Empresa\n");
+				printf("5. Cargo\n");
+				printf("0. Sair\n");
+				printf("Digite uma opcao: ");
+				scanf("%d", &resp);
+				switch (resp){
+					case 1: do{
+								printf("Qual o novo CPF? ");
+								scanf("%s", cpf);
+								for(i=0;i<150;i++){
+									strcmp(if (strcmp(func[i].cpf, cpf)==0){
+										printf("CPF %s ja cadastrado! Digite 0 para retornar ao menu alterar funcionario ou 1 para digitar um novo cpf: ", cpf);
+										scanf("%d", resp);
+										break;
+									}
+									else{
+										func[i].cpf=cpf;
+										printf("CPF alterado com sucesso!");
+									}
+								}
+							}while(resp==1);
+				}
+					case 2: printf("Qual o novo nome? ");
+							scanf("%s", &func[i].nome);
+							print("Nome alterado com sucesso!");	
+					case 3: do{
+								printf ("Qual a nova data de nascimento? ");
+								scanf ("%d%d%d", &func[i].dt_nasc.dia, &func[i].dt_nasc.mes, &func[i].dt_nasc.ano);
+								if (valida_data(func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano)==0){
+									printf ("“Data invalida! Digite novamente: ");
+								}else{	
+									printf("Data de nascimento alterada com sucesso!");
+								}
+							}while (valida_data(func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano)==0);
+					case 4: do{
+								printf ("Qual a nova data de admissao? ");
+								scanf ("%d%d%d", &func[i].dt_adm.dia, &func[i].dt_adm.mes, &func[i].dt_adm.ano);
+								if (valida_data(func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano) == 0){
+									printf ("Data invalida! Digite novamente:");
+								}else{
+									printf("Data de admissao alterada com sucesso!");
+								}
+							}while (valida_data(func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano) == 0);	
+					case 5: print("Qual o novo cargo? ");
+					   	   	scanf("%d", &func[i].cargo);
+							printf("Cargo alterado com sucesso!");   		
+			}while(resp=0);
+		}else{
+			printf("CPF %s não cadastrado! Digite 0 para retornar ao menu funcionario ou 1 para digitar um novo cpf: ", cpf);
+			scanf("%d", &resp);
+			if (resp=1){
+				menuAlterarFuncionario();
+			}
+		}
+	}
+}
+*/	
+int menuAlterarFuncionario(){
+	char cpf[12];
+	//printf("Qual o CPF do funcionario? ");
+	//scanf("")
 }
 /*               MAIN               */
 int main (){
-	int i;
+
 	int cont=0;
 	char cpf[12];
 	//Atribuicoes incials
+	int i = 0;
 	controle[0][0]=-1;
-	for(i=0;i<10;i++){
-		controle[0][i]=i+1;
-	}	
+	for(i=1;i <= 10;i++){
+		controle[0][i] = i;
+	}
 	do{
 		switch (menuRelatorio()){
 			case 1:
@@ -291,7 +379,8 @@ int main (){
 	   	   	   	   				break; //LISTAR TODOS
 	   	   				case 6: listarPorDept(cont);
 								break; //LISTAR POR DEPARTAMENTO
-            			case 0: break; //SAIR
+            			case 7: testecontrole();
+									break; //SAIR
             			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
 					}
    			        break;
