@@ -98,42 +98,37 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 	int i, j;
 	i=cont;
 	int resp;
-	do{
-		printf ("1. Cadastrar novo funcionario\n");
-		printf("Preencha os dados que se pedem a seguir\n\n");
-		printf ("CPF: ");
-		scanf ("%s", &func[i].cpf);
-		printf ("Nome Completo: ");
-		scanf (" %100[^\n]s", &func[i].nome);
-	 	do{
-			printf ("Data de Admiss%co: ", 198);
-			scanf ("%d%d%d", &func[i].dt_adm.dia, &func[i].dt_adm.mes, &func[i].dt_adm.ano);
-			if (valida_data(func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano) == 0){
-				printf ("Data inv%clida! Digite novamente\n", 160);
-			}
-		} while (valida_data(func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano) == 0);
-		do{
-			printf ("Data de Nascimento: ");
-			scanf ("%d%d%d", &func[i].dt_nasc.dia, &func[i].dt_nasc.mes, &func[i].dt_nasc.ano);
-			if (valida_data(func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano)==0){
-				printf ("Data inv%clida! Digite novamente\n", 160);
-			}
-		} while (valida_data(func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano)==0);
-		printf ("Codigo do cargo a ser designado: ");
-		scanf ("%d", &func[i].cargo);
-		printf ("Departamento a ser designado: ");
-		scanf ("%d", &func[i].dept);
-		
-		printf ("%d\n", func[i].dept);
-		printf ("\nFuncionario cadastrado com sucesso. Confira os dados:\n");
-		mostrarDados(i);
-		printf ("\nDeseja cadastrar outro funcionario?\n1-Sim\n2-Nao, obrigado.\n");
-		printf ("Digite sua resposta: ");
-		scanf ("%d", &resp);
-		if (resp==2){
-			system ("clear||cls");
+
+	printf ("1. Cadastrar novo funcionario\n");
+	printf("Preencha os dados que se pedem a seguir\n\n");
+	printf ("CPF: ");
+	scanf ("%s", &func[i].cpf);
+	printf ("Nome Completo: ");
+	scanf (" %100[^\n]s", &func[i].nome);
+ 	do{
+		printf ("Data de Admiss%co: ", 198);
+		scanf ("%d%d%d", &func[i].dt_adm.dia, &func[i].dt_adm.mes, &func[i].dt_adm.ano);
+		if (valida_data(func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano) == 0){
+			printf ("Data inv%clida! Digite novamente\n", 160);
 		}
-	} while (resp==1);
+	} while (valida_data(func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano) == 0);
+	do{
+		printf ("Data de Nascimento: ");
+		scanf ("%d%d%d", &func[i].dt_nasc.dia, &func[i].dt_nasc.mes, &func[i].dt_nasc.ano);
+		if (valida_data(func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano)==0){
+			printf ("Data inv%clida! Digite novamente\n", 160);
+		}
+	} while (valida_data(func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano)==0);
+	printf ("Codigo do cargo a ser designado: ");
+	scanf ("%d", &func[i].cargo);
+	printf ("Departamento a ser designado: ");
+	scanf ("%d", &func[i].dept);
+	printf ("%d\n", func[i].dept);
+	system ("clear||cls");
+	
+	printf ("\nFuncionario cadastrado com sucesso. Confira os dados:\n");
+	mostrarDados(i);
+	
 	return cont;
 }
 /*
@@ -265,24 +260,26 @@ void listarTodos(int cont){
 	}
 }
 
+int menuAlterarFuncionario(){
+	char cpf[12];
+	printf("Qual o CPF do funcionario? ");
+	scanf("")
+}
 /*               MAIN               */
 int main (){
-	
 	int i;
-	int cont=0, cont2;
+	int cont=0;
 	char cpf[12];
-	
 	//Atribuicoes incials
 	controle[0][0]=-1;
 	for(i=0;i<10;i++){
-		controle[0][1]=i+1;
-	}
-	
+		controle[0][i]=i+1;
+	}	
 	do{
 		switch (menuRelatorio()){
 			case 1:
 					switch (menuFuncionario()){
-						case 1: cont2 = cadastarFuncionario(func, cont);
+						case 1: cadastarFuncionario(func, cont);
 								cont++;
    			        			break; //CADASTRAR
             			case 2: break; //ALTERAR DADOS
