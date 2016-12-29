@@ -200,7 +200,6 @@ void testecontrole(){
 }
 void matrizControle(int dep, int func) {
 
-
 	controle[1][func] = func;
 
 }
