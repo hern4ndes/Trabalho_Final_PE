@@ -125,10 +125,12 @@ int cadastarFuncionario(tFuncionario func[150], int cont){
 	scanf ("%d", &func[i].dept);
 	printf ("%d\n", func[i].dept);
 	system ("clear||cls");
-	
+
 	printf ("\nFuncionario cadastrado com sucesso. Confira os dados:\n");
 	mostrarDados(i);
-	
+	matrizControle(func[i].dept, i);
+
+
 	return cont;
 }
 /*
@@ -187,6 +189,21 @@ int menuDepartamento(){
 	system ("cls || clear" );
     return resp;
 }
+void testecontrole(){
+	int i = 0, j = 0;
+	for (i = 0; i <= 1; i++){
+		for (j = 0; j <= 10; j++) {
+			printf("%d ", controle[i][j]);
+		}
+		printf("\n");
+	}
+}
+void matrizControle(int dep, int func) {
+
+
+	controle[dep][func] = func;
+
+}
 /*
  *     2.1 Funcao Criar Departamento: Cria um Departamento
  */
@@ -224,8 +241,8 @@ void criarDept(){
 		  //IMPLEMENTACAO
 		  //
 
-/*               OUTRAS FUNCOES              */
-/*
+/*               OUTRAS FUNCOES
+
  * Funcao Valida Datas: Valida as datas que sao inseridas no programa
  */
 int valida_data(int dia, int mes, int ano){
@@ -262,19 +279,20 @@ void listarTodos(int cont){
 
 int menuAlterarFuncionario(){
 	char cpf[12];
-	printf("Qual o CPF do funcionario? ");
-	scanf("")
+	//printf("Qual o CPF do funcionario? ");
+	//scanf("")
 }
 /*               MAIN               */
 int main (){
-	int i;
+
 	int cont=0;
 	char cpf[12];
 	//Atribuicoes incials
+	int i = 0;
 	controle[0][0]=-1;
-	for(i=0;i<10;i++){
-		controle[0][i]=i+1;
-	}	
+	for(i=1;i <= 10;i++){
+		controle[0][i] = i;
+	}
 	do{
 		switch (menuRelatorio()){
 			case 1:
@@ -291,7 +309,8 @@ int main (){
 	   	   	   	   				break; //LISTAR TODOS
 	   	   				case 6: listarPorDept(cont);
 								break; //LISTAR POR DEPARTAMENTO
-            			case 0: break; //SAIR
+            			case 7: testecontrole();
+									break; //SAIR
             			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
 					}
    			        break;
