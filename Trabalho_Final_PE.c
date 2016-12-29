@@ -195,6 +195,7 @@ int menuDepartamento(){
 /*
  *     2.1 Funcao Criar Departamento: Cria um Departamento
  */
+/*
 void criarDept(){
 	printf ("Criar Departamento\n\n");
 	printf ("Qual o codigo do departamento? ");
@@ -202,6 +203,7 @@ void criarDept(){
 	printf ("");
 	scanf ("");
 }
+*/
 /*
  *     2.2 Funcao Alterar nome do Departamento: Altera o nome do departamento criado
  */
@@ -267,7 +269,6 @@ void listarTodos(int cont){
 int main (){
 	
 	int i;
-	int respP, respF, respD;
 	int cont=0, cont2;
 	char cpf[12];
 	
@@ -278,10 +279,9 @@ int main (){
 	}
 	
 	do{
-		respP=menuRelatorio();
-		switch (respP){
-			case 1: respF=menuFuncionario(); //ABRIR MENU FUNCIONARIO
-					switch (respF){
+		switch (menuRelatorio()){
+			case 1:
+					switch (menuFuncionario()){
 						case 1: cont2 = cadastarFuncionario(func, cont);
 								cont++;
    			        			break; //CADASTRAR
@@ -298,8 +298,8 @@ int main (){
             			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
 					}
    			        break;
-            case 2: respD=menuDepartamento(); //ABRIR MENU DEPARTAMENTO
-            		switch (respD){
+            case 2:
+            		switch (menuDepartamento()){
 						case 1: break; //CRIAR DEPT
 						case 2: break; //ALTERAR NOME DEPT
 						case 3: break; //CONSULTAR DEPT
@@ -314,6 +314,6 @@ int main (){
 					 printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
 
 		}
-	}while(respP!=0);
+	}while(menuRelatorio()!=0);
 	return 0;
 }
