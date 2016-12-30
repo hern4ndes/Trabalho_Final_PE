@@ -56,7 +56,7 @@ int menuFuncionario(){
 	printf("1. Cadastrar funcionario\n");
 	printf("2. Alterar dados do funcionario\n");
 	printf("3. Transferir funcionario de departamento\n");
-	printf("n4. Demitir Funcionario\n");
+	printf("4. Demitir Funcionario\n");
 	printf("5. Listar todos os funcionarios\n");
 	printf("6. Listar todos de um departamento\n");
 	printf("0. Sair\n\n");
