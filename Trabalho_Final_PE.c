@@ -140,6 +140,7 @@ void listarTodos(int cont){
 
 	}
 }
+
 /*
  * 1.6 Fun��o Listar Por Departamento: Lista todos os funcionarios de um departamento.
  * Eh solicitado o codigo do departamento e eh listado os funcionarios.
