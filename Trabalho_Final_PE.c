@@ -73,7 +73,7 @@ int menuFuncionario(){
  	printf ("1. Cadastrar novo funcionario\n");
  	printf("Preencha os dados que se pedem a seguir\n\n");
  	printf ("CPF: ");
- 	scanf ("%s", &func[pos].cpf[12]);
+ 	scanf ("%s", &func[pos].cpf;
  	printf ("Nome Completo: ");
  	scanf (" %100[^\n]s", &func[pos].nome);
   	do{
@@ -343,7 +343,8 @@ int main (){
 						case 1: cadastarFuncionario(func, controle[1][0]);
 
    			        			break; //CADASTRAR
-            			case 2: break; //ALTERAR DADOS
+            			case 2: funcao_AlterarFuncionario();
+								break; //ALTERAR DADOS
             			case 3: printf("Digite o CPF do funcion%crio: ", 160);
 								scanf("%s", cpf);
 								break; //TRANSFERIR
