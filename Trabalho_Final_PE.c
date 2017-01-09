@@ -36,11 +36,11 @@ tDepartamento dep[11];
  */
 int menuRelatorio(){
 	int resp;
-	printf("\t\tMenu Relatorio\n\n");
+	printf("\t\tMenu Principal\n\n");
 	printf("1. Funcionario\n");
 	printf("2. Departamento\n");
 	printf("0. Sair\n");
-	printf("Digite uma opcaoo do menu: ");
+	printf("Digite uma opcao do menu: ");
 	scanf("%d", &resp);
 	return resp;
 }
@@ -99,7 +99,7 @@ int menuFuncionario(){
  	return 1;
  }
 /*
- *     1.2 Fun��o Alterar dados do funcionario: Alterar dados do funcionario
+ *     1.2 Funcao Alterar dados do funcionario: Alterar dados do funcionario
  */
           //
 		  //IMPLEMENTACAO
@@ -152,23 +152,35 @@ void listarPorDept(int cont){
 		printf("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
 	}
 }
-/*
- * 2. Funcao Menu Departamento: Mostra as opcoes de Departamento
- */
+
+
+//-------------------------------------------------------INICIO DAS FUNCOES DE DEPARTAMENTO--------------------------------------------------
+//2. Funcao Menu Departamento: Mostra as opcoes de Departamento
+    //Objetivo: Mostrar o menu Departamento
+    //Parametros: Nenhum
+    //Retorno: A resposta do usuario, ou seja, a opcao desejada do menu
 int menuDepartamento(){
+	system("clear || cls");
 	int resp;
-	printf ("\n\tMenu Departamento\n\n");
-	printf("1. Criar departamento\n");
-	printf("2. Alterar nome do departamento\n");
-	printf("3. Consultar departamento\n");
-	printf("4. Listar departamentos\n");
-	printf("5. Excluir departamento\n");
-	printf("0. Sair\n");
+	printf ("\n\tMenu Departamento\n\n");//#1
+	printf("1. Criar departamento\n");//#2
+	printf("2. Alterar nome do departamento\n");//#3
+	printf("3. Consultar departamento\n");//#4
+	printf("4. Listar departamentos\n");//#5
+	printf("5. Excluir departamento\n");//#6
+	printf("0. Sair\n");//Saida
 	printf("Digite sua resposta: ");
 	scanf("%d", &resp);
+	return resp;
 }
-//   #1
+//  #1: Criar Departamento
+        //Objetivo:
+        //Parametros:
+        //Retorno:
 int criarDepartamento(int contDep){
+	system("clear || cls");
+	printf("\tCriar Departamento\n\n");
+	int i;
 	do{
 	printf("Qual o codigo do departamento? ");
 	scanf("%d", &dep[contDep].cod);
@@ -178,11 +190,17 @@ int criarDepartamento(int contDep){
 	printf("Qual o nome do departamento? ");
 	scanf("%s", &dep[contDep].nome);
 	dep[contDep].quant=0;
-	return contDep; //Quando for chamado novamente, esse valor retornado � incrementado no main
+	printf("\nDepartamento criado com sucesso. Pronto para cadastrar funcionarios.\n");
+	return contDep; //Quando for chamado novamente, esse valor retornado eh incrementado no main
 	                //e volta como parametro.
 }
-//    #2
+//    #2: Alterar nome do Departamento
+        //Objetivo:
+        //Parametros:
+        //Retorno:
 void alterarNomeDept(){
+	system("clear || cls");
+	printf("\tAlterar nome de Departamento\n\n");
 	int cod;
 	int i;
 	int y=0, n=0, pos;
@@ -194,7 +212,7 @@ void alterarNomeDept(){
 			if(cod==dep[i].cod){
 				y=1;
 				pos=i;
-			}               //y=sim, n=nao. 0 e o valor pra nao e 1 pra sim
+			}               //y=sim, n=nao. 0 e o valor pra nao e 1 pra sim. COISAS QUE SO O DIEGO ENTENDE :D
 			else{
 				n=0;
 			}
@@ -205,13 +223,18 @@ void alterarNomeDept(){
 			resp=0;
 		}
 		if((y==0)&&(n==0)){
-			printf("�Departamento <cod> nao existe! Digite 0 para retornar ao menu departamento ou 1 para digitar um novo c�digo: ");
+			printf("O Departamento %d nao existe!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo: ", cod);
 			scanf("%d", &resp);
 		}
 	}while(resp==1);
 }
-//    #3
+//    #3: Consultar Departamento
+        //Objetivo:
+        //Parametros:
+        //Retorno:
 void consultarDepartamento(){
+	system("clear || cls");
+	printf("\tConsultar Departamento\n\n");	
 	int i;
 	int cod;
 	int nope=0;
@@ -229,24 +252,53 @@ void consultarDepartamento(){
 		printf("�Departamento <cod> nao existe!");
 	}
 }
-//    #4
+//    #4: Listar Departamentos
+        //Objetivo:
+        //Parametros:
+        //Retorno:
 void listarDepartamento(){
+	system("clear || cls");
+	printf("\tListar Departamento\n\n");
 	int i;
 	int cont=0;
 	for(i=0;i<11;i++){
 		if (dep[i].cod>0){		//considerando que os codigos nao sejam negativos
-			cont++;
-		}
+			cont++;             //Esse for serve pra apenas selecionar os departamentos cadastrados na listagem
+		}                       //  ja que os departamentos estao no vetor dep de forma contigua :)
 	}
+	printf("Lista de Departamentos cadastrados: ");
 	for(i=0;i<cont;i++){
-		printf("Codigo: %d\nNome: %s\nQuantidade de funcionarios cadastrados: %d", dep[i].cod, dep[i].nome, dep[i].quant);
+		printf("\nCodigo: %d\nNome: %s\nQuantidade de funcionarios cadastrados: %d\n", dep[i].cod, dep[i].nome, dep[i].quant);
 	}
 }
- /*     2.5 Funcao Excluir Departamento: Deleta um departamento
- */
-          //
-		  //IMPLEMENTACAO
-		  //
+//    #5: Excluir Departamento
+        //Objetivo:
+        //Parametros:
+        //Retorno:
+
+int pesquisarExcluirDepartamento(){
+	int i, cod, resp;
+	do{
+		printf("Qual o codigo do departamento? ");
+		scanf("%d", &cod);
+		for(i=0;i<11;i++){
+			if(dep[i].cod==cod){
+				return 1; //SIM!
+			}
+		}
+		printf("Departamento %d nao existe!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo: ", cod);
+		scanf("%d", &resp);
+	}while(resp=1);
+}
+void excluirDepartamento(){
+	int resp;
+	resp=pesquisarExcluirDepartamento();
+	if(resp==1){
+		printf("\nDaqui a pouco esse bagulho exclui, blz?\n");
+	}
+}
+//-------------------------------------------------------FIM DAS FUNCOES DE DEPARTAMENTO--------------------------------------------------
+
 
 /*          OUTRAS FUNCOES         */
 /*
@@ -430,15 +482,11 @@ int main (){
 									printf("O funcionario nao existe :(");
 								}
 							break;
-
-
-                    break; //SAIR
-                  case 0: break; //SAIR
+                        case 0: break; //SAIR
             			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
 					}
    			        break;
-            case 2: respD=menuDepartamento(); //ABRIR MENU DEPARTAMENTO
-            		switch (respD){
+            case 2: switch (menuDepartamento()){
 						case 1: criarDepartamento(contDep);
 								contDep++;
 								break; //CRIAR DEPT
@@ -448,7 +496,8 @@ int main (){
 								break; //CONSULTAR DEPT
 						case 4: listarDepartamento();
 								break; //LISTAR DEPT;
-						case 5: break; //EXCLUIR DEPT
+						case 5: excluirDepartamento();
+								break; //EXCLUIR DEPT
 						case 0: break; //SAIR
 					}
 
