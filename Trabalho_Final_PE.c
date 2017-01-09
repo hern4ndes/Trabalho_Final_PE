@@ -422,8 +422,15 @@ int funcao_AlterarFuncionario(){
 	scanf("%s", &cpf);
 	if(alterarFuncionario_CPF(cpf) != -1){
 		j=alterarFuncionario_CPF(cpf);
-		printf("%s", cpf);
+		printf("Menu Alterar Funcionario - CPF %s\n", cpf);
 		rsp=menu_AlterarFuncionario(cpf);
+	}
+	if(alterarFuncionario_CPF(cpf) == -1){
+		printf("Esse CPF nao esta cadastrado!\n1.digitar outro\n0.Sair\nResposta: ");
+		scanf("%d", &resp);
+		if (resp==1){
+			funcao_AlterarFuncionario();
+		}
 	}
 	if(rsp==1){
 		char cpf[12];
@@ -434,9 +441,10 @@ int funcao_AlterarFuncionario(){
 			if(resp==5){
 				strcpy(func[j].cpf, cpf);
 			}else if (resp==10){
-				printf("nope\n");
+				printf("Esse cpf ja existe.\n1.digitar outro\n2.Sair\nResposta: ");
+				scanf("%d", &resp);
 			}
-		}while(resp==0);
+		}while(resp==1);
 	}
 	if(rsp==2){
 		printf("Qual o novo nome? ");
