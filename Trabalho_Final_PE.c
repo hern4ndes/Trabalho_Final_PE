@@ -68,35 +68,47 @@ int menuFuncionario(){
  *     1.1 Funcao Cadastrar Funcionario: Cadastra um funcionario na base de dados.
  */
  int cadastarFuncionario(tFuncionario func[150], int pos){
-
+ 	int i;
  	printf ("1. Cadastrar novo funcionario\n");
  	printf("Preencha os dados que se pedem a seguir\n\n");
  	printf ("CPF: ");
  	scanf ("%s", &func[pos].cpf);
  	printf ("Nome Completo: ");
  	scanf (" %100[^\n]s", &func[pos].nome);
-  	do{
- 		printf ("Data de Admiss%co: ", 198);
- 		scanf ("%d%d%d", &func[pos].dt_adm.dia, &func[pos].dt_adm.mes, &func[pos].dt_adm.ano);
- 		if (valida_data(func[pos].dt_adm.dia, func[pos].dt_adm.mes, func[pos].dt_adm.ano) == 0){
- 			printf ("Data inv%clida! Digite novamente\n", 160);
- 		}
- 	} while (valida_data(func[pos].dt_adm.dia, func[pos].dt_adm.mes, func[pos].dt_adm.ano) == 0);
+ 	/*do{
+ 	printf ("Data de Admiss%co: ", 198);
+ 	scanf ("%d%d%d", &func[pos].dt_adm.dia, &func[pos].dt_adm.mes, &func[pos].dt_adm.ano);
+ 	if (valida_data(func[pos].dt_adm.dia, func[pos].dt_adm.mes, func[pos].dt_adm.ano) == 0){
+ 	printf ("Data inv%clida! Digite novamente\n", 160);
+ }
+ } while (valida_data(func[pos].dt_adm.dia, func[pos].dt_adm.mes, func[pos].dt_adm.ano) == 0);
+ do{
+ printf ("Data de Nascimento: ");
+ scanf ("%d%d%d", &func[pos].dt_nasc.dia, &func[pos].dt_nasc.mes, &func[pos].dt_nasc.ano);
+ if (valida_data(func[pos].dt_nasc.dia, func[pos].dt_nasc.mes, func[pos].dt_nasc.ano)==0){
+ printf ("Data inv%clida! Digite novamente\n", 160);
+ }
+ } while (valida_data(func[pos].dt_nasc.dia, func[pos].dt_nasc.mes, func[pos].dt_nasc.ano)==0);*/
+ printf ("Codigo do cargo a ser designado: ");
+ scanf ("%d", &func[pos].cargo);
+ printf ("Departamento a ser designado: ");
+ scanf ("%d", &func[pos].dept);
+ mostrarDados(pos);
+ for(i =1 ;i < 11 ;i++){
  	do{
- 		printf ("Data de Nascimento: ");
- 		scanf ("%d%d%d", &func[pos].dt_nasc.dia, &func[pos].dt_nasc.mes, &func[pos].dt_nasc.ano);
- 		if (valida_data(func[pos].dt_nasc.dia, func[pos].dt_nasc.mes, func[pos].dt_nasc.ano)==0){
- 			printf ("Data inv%clida! Digite novamente\n", 160);
- 		}
- 	} while (valida_data(func[pos].dt_nasc.dia, func[pos].dt_nasc.mes, func[pos].dt_nasc.ano)==0);
- 	printf ("Codigo do cargo a ser designado: ");
- 	scanf ("%d", &func[pos].cargo);
- 	printf ("Departamento a ser designado: ");
- 	scanf ("%d", &func[pos].dept);
- 	mostrarDados(pos);
-	controle[1][0]++;
- 	system ("cls || clear" );
- 	return 1;
+ 		printf("departamento nao cadastrado");
+ 		scanf ("%d", &func[pos].dept);
+
+ 	}while (func[pos].dept =! controle[1][i]);
+ 		/* code */
+ 	}
+
+
+
+
+
+ system ("cls || clear" );
+ return 1;
  }
 /*
  *     1.2 Funcao Alterar dados do funcionario: Alterar dados do funcionario
@@ -177,24 +189,40 @@ int menuDepartamento(){
         //Objetivo:
         //Parametros:
         //Retorno:
-int criarDepartamento(int contDep){
-	system("clear || cls");
-	printf("\tCriar Departamento\n\n");
-	int i;
-	do{
-	printf("Qual o codigo do departamento? ");
-	scanf("%d", &dep[contDep].cod);
+				int criarDepartamento(int contDep){
 
-}	while (dep[contDep].cod > 10);
-		/* code */
+					system("clear || cls");
+					printf("\tCriar Departamento\n\n");
+					int i;
+					do{
+						printf("Qual o codigo do departamento? ");
+						scanf("%d", &dep[contDep].cod);
+					}	while (dep[contDep].cod > 10);
+					for(i = 1; i <= 11; i++){
+						while (controle[0][i] == dep[contDep].cod){
+							printf("departamento %d ja existe! Digite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo\n",dep[contDep].cod );
+							int resp;
+							scanf("%d",&resp);
+							if (resp == 1) {
+								printf("Qual o codigo do departamento? ");
+								scanf("%d", &dep[contDep].cod);
 
-	printf("Qual o nome do departamento? ");
-	scanf("%s", &dep[contDep].nome);
-	dep[contDep].quant=0;
-	printf("\nDepartamento criado com sucesso. Pronto para cadastrar funcionarios.\n");
-	return contDep; //Quando for chamado novamente, esse valor retornado eh incrementado no main
-	                //e volta como parametro.
-}
+							}else if(resp == 0){
+
+								menuDepartamento();
+								break;
+							}
+						}
+
+				}
+						printf("Qual o nome do departamento? ");
+						scanf("%s", &dep[contDep].nome);
+						dep[contDep].quant=0;
+						controle[0][contDep + 1] = dep[contDep].cod;
+						printf("\nDepartamento criado com sucesso. Pronto para cadastrar funcionarios.\n");
+						return contDep; //Quando for chamado novamente, esse valor retornado eh incrementado no main
+						//e volta como parametro.
+					}
 //    #2: Alterar nome do Departamento
         //Objetivo:
         //Parametros:
@@ -455,9 +483,7 @@ int main (){
 	char cpf[12];
 	int cont, contDep=0;
 	controle[0][0]=-1;
-	for(i=1;i <= 10;i++){
-		controle[0][i] = i;
-	}
+
 	do{
 		respP=menuRelatorio();
 		switch (respP){
