@@ -372,96 +372,98 @@ int criarDepartamento(int contDep){
 			}
 		}
 	}
-	int menu_AlterarFuncionario(char cpf[12]){
-		int resp;
-		printf("1. CPF\n");
-		printf("2. Nome\n");
-		printf("3. Data de Nascimento\n");
-		printf("4. Data de Admissao na Empresa\n");
-		printf("5. Cargo\n");
-		printf("0. Sair\n");
-		printf("Digite uma opcao: ");
-		scanf("%d", &resp);
-		return resp;
-	}
-	void alterarFuncionario_CPF(){
-
-	}
-	int funcao_AlterarFuncionario(){
-		char cpf[12];
-		int i, j;
-		int resp, rsp; //rsp PARA O MENU e resp PARA AS CONDICOES DE REPETICAO
-		printf("Qual o CPF do funcionario? ");
-		scanf("%s", &cpf);
-		/*
-		for(i=0;i<150;i++){
-		do{
+//----------MENU FUNCIONARIO----------
+int menu_AlterarFuncionario(char cpf[12]){//DO ALTERAR FUNCIONARIO
+	int resp;
+	printf("1. CPF\n");
+	printf("2. Nome\n");
+	printf("3. Data de Nascimento\n");
+	printf("4. Data de Admissao na Empresa\n");
+	printf("5. Cargo\n");
+	printf("0. Sair\n");
+	printf("Digite uma opcao: ");
+	scanf("%d", &resp);
+	return resp;
+}
+int alterarFuncionario_CPF(char cpf[12]){//DO ALTERAR FUNCIONARIO
+	int i;
+	for(i=0;i<150;i++){
 		if(strcmp(func[i].cpf, cpf)==0){
-		printf("MENU ALTERAR FUNCIONARIO (CPF: %s)\n\n", cpf);
-
-	}else{
-	printf("CPF nao encontrado. 1 para digitar novamente, 0 pra sair");
+			return i;
+		}
+	}
+	return -1;
 }
-}while(resp==1);
+int verificarExistenciaCPF(char cpf[12]){
+	int i;
+	for(i=0;i<150;i++){
+		if(strcmp(func[i].cpf, cpf)==0){
+			printf("%s", cpf);
+			return 10; //Se existir
+		}
+	}
+	return 5; //Se nao existir
 }
-*/
-for(i=0;i<150;i++){
-	if(strcmp(func[i].cpf, cpf)==0){
-		j=i;
+int funcao_AlterarFuncionario(){
+	char cpf[12];
+	int i, j;
+	int resp, rsp; //rsp PARA O MENU e resp PARA AS CONDICOES DE REPETICAO
+	printf("Qual o CPF do funcionario? ");
+	scanf("%s", &cpf);
+	if(alterarFuncionario_CPF(cpf) != -1){
+		j=alterarFuncionario_CPF(cpf);
+		printf("%s", cpf);
 		rsp=menu_AlterarFuncionario(cpf);
 	}
-}
-if(rsp==1){
-	do{
-		printf("Qual o novo CPF? ");
-		scanf("%s", &cpf);
-		for(i=0;i<150;i++){
-			if (strcmp(func[j].cpf, cpf)==0){
-				printf("CPF %s ja cadastrado! Digite 0 para retornar ao menu alterar funcionario ou 1 para digitar um novo cpf: ", cpf);
-				scanf("%d", &resp);
-			}else{
-
-				printf("CPF alterado com sucesso!");
+	if(rsp==1){
+		char cpf[12];
+		do{
+			printf("Digite o novo CPF: ");
+			scanf("%s", cpf);
+			resp=verificarExistenciaCPF(cpf);
+			if(resp==5){
+				strcpy(func[j].cpf, cpf);
+			}else if (resp==10){
+				printf("nope\n");
 			}
-		}
-	}while(resp==1);
-}
-if(rsp==2){
-	printf("Qual o novo nome? ");
-	scanf("%s", &func[j].nome);
-	printf("Nome alterado com sucesso!");
-}
-if(rsp==3){
-	do{
-		printf ("Qual a nova data de nascimento? ");
-		scanf ("%d%d%d", &func[j].dt_nasc.dia, &func[j].dt_nasc.mes, &func[j].dt_nasc.ano);
-		if (valida_data(func[j].dt_nasc.dia, func[j].dt_nasc.mes, func[j].dt_nasc.ano)==0){
-			printf ("Data invalida! Digite novamente: ");
-		}else{
-			printf("Data de nascimento alterada com sucesso!");
-		}
-	}while (valida_data(func[j].dt_nasc.dia, func[j].dt_nasc.mes, func[j].dt_nasc.ano)==0);
-}
-if(rsp==4){
-	do{
-		printf ("Qual a nova data de admissao? ");
-		scanf ("%d%d%d", &func[j].dt_adm.dia, &func[j].dt_adm.mes, &func[j].dt_adm.ano);
-		if (valida_data(func[j].dt_adm.dia, func[j].dt_adm.mes, func[j].dt_adm.ano) == 0){
-			printf ("Data invalida! Digite novamente:");
-		}else{
-			printf("Data de admissao alterada com sucesso!");
-		}
-	}while (valida_data(func[j].dt_adm.dia, func[j].dt_adm.mes, func[j].dt_adm.ano) == 0);
-}
-if(rsp==5){
-	printf("Qual o novo cargo? ");
-	scanf("%d", &func[j].cargo);
-	printf("Cargo alterado com sucesso!");
-}
-if(rsp==0){
+		}while(resp==0);
+	}
+	if(rsp==2){
+		printf("Qual o novo nome? ");
+		scanf("%s", &func[j].nome);
+		printf("Nome alterado com sucesso!");
+	}
+	if(rsp==3){
+		do{
+			printf ("Qual a nova data de nascimento? ");
+			scanf ("%d%d%d", &func[j].dt_nasc.dia, &func[j].dt_nasc.mes, &func[j].dt_nasc.ano);
+			if (valida_data(func[j].dt_nasc.dia, func[j].dt_nasc.mes, func[j].dt_nasc.ano)==0){
+				printf ("Data invalida! Digite novamente: ");
+			}else{
+				printf("Data de nascimento alterada com sucesso!");
+			}
+		}while (valida_data(func[j].dt_nasc.dia, func[j].dt_nasc.mes, func[j].dt_nasc.ano)==0);
+	}
+	if(rsp==4){
+		do{
+			printf ("Qual a nova data de admissao? ");
+			scanf ("%d%d%d", &func[j].dt_adm.dia, &func[j].dt_adm.mes, &func[j].dt_adm.ano);
+			if (valida_data(func[j].dt_adm.dia, func[j].dt_adm.mes, func[j].dt_adm.ano) == 0){
+				printf ("Data invalida! Digite novamente:");
+			}else{
+				printf("Data de admissao alterada com sucesso!");
+			}
+		}while (valida_data(func[j].dt_adm.dia, func[j].dt_adm.mes, func[j].dt_adm.ano) == 0);
+	}
+	if(rsp==5){
+		printf("Qual o novo cargo? ");
+  	   	scanf("%d", &func[j].cargo);
+		printf("Cargo alterado com sucesso!");
+	}
+	if(rsp==0){
+		return 0;
+	}
 	return 0;
-}
-return 0;
 }
 /*               MAIN               */
 int main (){
