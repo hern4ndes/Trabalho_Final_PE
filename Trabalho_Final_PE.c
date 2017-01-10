@@ -68,7 +68,8 @@ int menuFuncionario(){
  *     1.1 Funcao Cadastrar Funcionario: Cadastra um funcionario na base de dados.
  */
  int cadastarFuncionario(tFuncionario func[150], int pos){
-
+ 	int depOK=0;//1: Departamento OK, 0:Departamento nao existe
+ 	int i;
  	printf ("1. Cadastrar novo funcionario\n");
  	printf("Preencha os dados que se pedem a seguir\n\n");
  	printf ("CPF: ");
@@ -91,27 +92,35 @@ int menuFuncionario(){
  	} while (valida_data(func[pos].dt_nasc.dia, func[pos].dt_nasc.mes, func[pos].dt_nasc.ano)==0);
  	printf ("Codigo do cargo a ser designado: ");
  	scanf ("%d", &func[pos].cargo);
- 	printf ("Departamento a ser designado: ");
- 	scanf ("%d", &func[pos].dept);
+ 	do{
+  		printf ("Departamento a ser designado: ");
+ 		scanf ("%d", &func[pos].dept);
+ 		for(i=0;i<11;i++){
+ 			if(func[pos].dept==dep[i].cod){
+ 				depOK=1;
+ 				break;
+			 }
+ 		}
+	}while(depOK==0);
+	printf("Funcionario cadastrado com sucesso! Verifique seus dados:\n");
  	mostrarDados(pos);
 	controle[1][0]++;
- 	system ("cls || clear" );
  	return 1;
  }
 /*
- *     1.2 Funcao Alterar dados do funcionario: Alterar dados do funcionario
+ *     1.2 Funcao Alterar dados do funcionario: Altera dados do funcionario
  */
           //
 		  //IMPLEMENTACAO
 		  //
 /*
- *     1.3 Fun��o Transferir Funcionario de Departmento: Altera o departamento
+ *     1.3 Funcao Transferir Funcionario de Departmento: Altera o departamento
  */
           //
-		  //IMPLEM8ENTACAO
+		  //IMPLEMENTACAO
 		  //
 /*
- *     1.4 Fun��o Demitir funcionario: Apaga o funcionario dos dados
+ *     1.4 Funcao Demitir funcionario: Apaga o funcionario dos dados
  */
           //
 		  //IMPLEMENTACAO
@@ -125,23 +134,22 @@ void mostrarDados(int i) {
 	printf("Data de Admissao: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
 	printf("Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
 	printf("Codigo do Cargo: %d\n",func[i].cargo);
-	printf("Departamento: %d\n\n\n",func[i].dept);
-	printf ("Funcionario indice: %d\n", i);
-	printf("DEPARTAMENTO: %d\n", func[i].dept);
-	/* code */
+	printf("Departamento: %d\n",func[i].dept);
+	printf ("Funcionario indice: %d\n", i);//extra
 }
 void listarTodos(int cont){
 	int i;
-	printf ("Lista de funcion%crios cadastrados:\n", 160);
-	for (i=0;i<cont;i++){
-		mostrarDados(i);
+	printf ("Lista de funcionarios cadastrados:\n");
+	
+	for (i=0;i<cont;i++){                //AGORA ELA ~DEVE~ CLASSIFICAR POR DEPARTAMENTOS
+		mostrarDados(i);                 //por isso, tem q refazer
 
 
 	}
 }
 
 /*
- * 1.6 Fun��o Listar Por Departamento: Lista todos os funcionarios de um departamento.
+ * 1.6 Funcao Listar Por Departamento: Lista todos os funcionarios de um departamento.
  * Eh solicitado o codigo do departamento e eh listado os funcionarios.
  */
 void listarPorDept(int cont){
@@ -173,10 +181,10 @@ int menuDepartamento(){
 	scanf("%d", &resp);
 	return resp;
 }
-//  #1: Criar Departamento
-        //Objetivo:
-        //Parametros:
-        //Retorno:
+//  #2.1: Criar Departamento
+        //Objetivo: Criar um departamento
+        //Parametros: contDep que controla os departamentos cadastrados
+        //Retorno: retorna o contDep pra fazer incremento
 int criarDepartamento(int contDep){
 	system("clear || cls");
 	printf("\tCriar Departamento\n\n");
@@ -184,10 +192,10 @@ int criarDepartamento(int contDep){
 	do{
 		printf("Qual o codigo do departamento? ");
 		scanf("%d", &dep[contDep].cod);
-	}	while (dep[contDep].cod > 10);
+	}while (dep[contDep].cod > 10);
 	for(i = 1; i <= 11; i++){
 		while (controle[0][i] == dep[contDep].cod){
-			printf("departamento %d ja existe! Digite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo\n",dep[contDep].cod );
+			printf("O departamento %d ja existe!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo\n",dep[contDep].cod );
 			int resp;
 			scanf("%d",&resp);
 			if (resp == 1) {
@@ -195,17 +203,16 @@ int criarDepartamento(int contDep){
 				scanf("%d", &dep[contDep].cod);
 			}
 		}
-
-}
-		printf("Qual o nome do departamento? ");
-		scanf("%s", &dep[contDep].nome);
-		dep[contDep].quant=0;
-		controle[0][contDep + 1] = dep[contDep].cod;
-		printf("\nDepartamento criado com sucesso. Pronto para cadastrar funcionarios.\n");
-		return contDep; //Quando for chamado novamente, esse valor retornado eh incrementado no main
-	                 	//e volta como parametro.
 	}
-//    #2: Alterar nome do Departamento
+	printf("Qual o nome do departamento? ");
+	scanf("%s", &dep[contDep].nome);
+	dep[contDep].quant=0;
+	controle[0][contDep + 1] = dep[contDep].cod;
+	printf("\nDepartamento criado com sucesso. Pronto para cadastrar funcionarios.\n");
+	return contDep; //Quando for chamado novamente, esse valor retornado eh incrementado no main
+                 	//e volta como parametro.
+}
+//    #2.2: Alterar nome do Departamento
         //Objetivo:
         //Parametros:
         //Retorno:
@@ -239,7 +246,7 @@ void alterarNomeDept(){
 		}
 	}while(resp==1);
 }
-//    #3: Consultar Departamento
+//    #2.3: Consultar Departamento
         //Objetivo:
         //Parametros:
         //Retorno:
@@ -263,7 +270,7 @@ void consultarDepartamento(){
 		printf("�Departamento <cod> nao existe!");
 	}
 }
-//    #4: Listar Departamentos
+//    #2.4: Listar Departamentos
         //Objetivo:
         //Parametros:
         //Retorno:
@@ -282,7 +289,7 @@ void listarDepartamento(){
 		printf("\nCodigo: %d\nNome: %s\nQuantidade de funcionarios cadastrados: %d\n", dep[i].cod, dep[i].nome, dep[i].quant);
 	}
 }
-//    #5: Excluir Departamento
+//    #2.5: Excluir Departamento
         //Objetivo:
         //Parametros:
         //Retorno:
