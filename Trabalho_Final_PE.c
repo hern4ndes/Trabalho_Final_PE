@@ -69,7 +69,7 @@ int menuFuncionario(){
  */
  int cadastarFuncionario(tFuncionario func[150], int pos){
  	int depOK=0;//1: Departamento OK, 0:Departamento nao existe
- 	int i;
+ 	int i, j, k;
  	printf ("1. Cadastrar novo funcionario\n");
  	printf("Preencha os dados que se pedem a seguir\n\n");
  	printf ("CPF: ");
@@ -102,6 +102,14 @@ int menuFuncionario(){
 			 }
  		}
 	}while(depOK==0);
+
+	j=func[pos].dept;
+	for(k=0;k<11;k++){
+		if(j==dep[k].cod){
+			dep[k].quant++;;
+			break;         
+		}
+	}
 	printf("Funcionario cadastrado com sucesso! Verifique seus dados:\n");
  	mostrarDados(pos);
 	controle[1][0]++;
@@ -120,7 +128,7 @@ int menuFuncionario(){
 		  //IMPLEMENTACAO
 		  //
 /*
- *     1.4 Funcao Demitir funcionario: Apaga o funcionario dos dados
+ *     1.4 Funcao Demitir funcionario: Apaga o funcionario dos dados(??)
  */
           //
 		  //IMPLEMENTACAO
@@ -129,22 +137,28 @@ int menuFuncionario(){
  *     1.5 Funcao Listar Todos: Lista todos os funcionarios de um departamento
  */
 void mostrarDados(int i) {
+	int j, k, nomeDep; //ESSAS VARIAVEIS SERVEM PARA MOSTRAR O NOME DO DEPARTAMENTO TAMBEM
 	printf("CPF: %s\n", func[i].cpf);
 	printf("Nome: %s\n",func[i].nome);
 	printf("Data de Admissao: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
 	printf("Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
 	printf("Codigo do Cargo: %d\n",func[i].cargo);
-	printf("Departamento: %d\n",func[i].dept);
-	printf ("Funcionario indice: %d\n", i);//extra
+	
+	j=func[i].dept;            //=============================
+	for(k=0;k<11;k++){         // PARA MOSTRAR
+		if(j==dep[k].cod){     // O NOME DO DEPARTAMENTO
+			nomeDep=k;         // NA HORA DE MOSTRAR OS DADOS.
+			break;             //=============================
+		}
+	}
+	printf("Departamento: %d (%s)\n",func[i].dept, dep[nomeDep].nome);
+	printf ("Funcionario indice: %d \n\n", i); //extra para informar o indice dele em func
 }
 void listarTodos(int cont){
 	int i;
 	printf ("Lista de funcionarios cadastrados:\n");
-	
-	for (i=0;i<cont;i++){                //AGORA ELA ~DEVE~ CLASSIFICAR POR DEPARTAMENTOS
-		mostrarDados(i);                 //por isso, tem q refazer
-
-
+	for (i=0;i<cont;i++){                // AGORA ELA ~DEVE~ CLASSIFICAR POR DEPARTAMENTOS
+		mostrarDados(i);                 // por isso, tem q refazer
 	}
 }
 
