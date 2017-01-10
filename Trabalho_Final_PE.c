@@ -157,6 +157,14 @@ void mostrarDados(int i) {
 void listarTodos(int cont){
 	int i;
 	printf ("Lista de funcionarios cadastrados:\n");
+	for(i=0;i<11;i++){
+		if(dep[i].cod>0){
+			printf("Departamento: %d (%s)", dep[i].cod, dep[i].nome);
+			
+		}
+
+	}
+
 	for (i=0;i<cont;i++){                // AGORA ELA ~DEVE~ CLASSIFICAR POR DEPARTAMENTOS
 		mostrarDados(i);                 // por isso, tem q refazer
 	}
@@ -222,6 +230,7 @@ int criarDepartamento(int contDep){
 	scanf("%s", &dep[contDep].nome);
 	dep[contDep].quant=0;
 	controle[0][contDep + 1] = dep[contDep].cod;
+	controle[1][contDep+1]=-1;
 	printf("\nDepartamento criado com sucesso. Pronto para cadastrar funcionarios.\n");
 	return contDep; //Quando for chamado novamente, esse valor retornado eh incrementado no main
                  	//e volta como parametro.
