@@ -1,3 +1,8 @@
+/* TRABALHO FINAL DE PROGRAMACAO ESTRUTURADA
+*  Desenvolvido por: Diego Winter
+*					 Hernandes Erick
+*  Nosso projeto e repositorio no Github: https://github.com/hern4ndes/Trabalho_Final_PE
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,7 +46,7 @@ int menuRelatorio(){
 	printf("2. Departamento\n");
 	printf("0. Sair\n");
 	printf("Digite uma opcao do menu: ");
-	scanf("%d", &resp);
+	scanf ("%d", &resp);
 	return resp;
 }
 
@@ -50,18 +55,19 @@ int menuRelatorio(){
  */
 int menuFuncionario(){
 	int resp;
-	system ("clear || cls");
+	system("clear || cls");
 	printf("\n\t\tMenu Funcionario\n\n");
 	printf("1. Cadastrar funcionario\n");
 	printf("2. Alterar dados do funcionario\n");
 	printf("3. Transferir funcionario de departamento\n");
 	printf("4. Demitir Funcionario\n");
-	printf("5. Listar todos os funcionarios\n");
-	printf("6. Listar todos de um departamento\n");
+	printf("5. Pesquisar Funcionario\n");
+	printf("6. Listar todos os funcionarios\n");
+	printf("7. Listar todos de um departamento\n");
 	printf("0. Sair\n\n");
 	printf("Digite uma opcao do menu: ");
-	scanf("%d", &resp);
-	system ("cls || clear" );
+	scanf ("%d", &resp);
+	system("cls || clear" );
     return resp;
 }
 /*
@@ -110,6 +116,7 @@ int menuFuncionario(){
 			break;         
 		}
 	}
+	system("clear || cls");
 	printf("Funcionario cadastrado com sucesso! Verifique seus dados:\n");
  	mostrarDados(pos);
 	controle[1][0]++;
@@ -118,9 +125,107 @@ int menuFuncionario(){
 /*
  *     1.2 Funcao Alterar dados do funcionario: Altera dados do funcionario
  */
-          //
-		  //IMPLEMENTACAO
-		  //
+int menu_AlterarFuncionario(char cpf[12]){
+	int resp;
+	printf("1. CPF\n");
+	printf("2. Nome\n");
+	printf("3. Data de Nascimento\n");
+	printf("4. Data de Admissao na Empresa\n");
+	printf("5. Cargo\n");
+	printf("0. Sair\n");
+	printf("Digite uma opcao: ");
+	scanf("%d", &resp);
+	return resp;
+}
+int alterarFuncionario_CPF(char cpf[12]){
+	int i;
+	for(i=0;i<150;i++){
+		if(strcmp(func[i].cpf, cpf)==0){
+			return i;
+		}
+	}
+	return -1;
+}
+int verificarExistenciaCPF(char cpf[12]){
+	int i;
+	for(i=0;i<150;i++){
+		if(strcmp(func[i].cpf, cpf)==0){
+			printf("%s", cpf);
+			return 10; //Se existir
+		}
+	}
+	return 5; //Se nao existir
+}
+int funcao_AlterarFuncionario(){
+	char cpf[12];
+	int i, j;
+	int resp, rsp; //rsp PARA O MENU e resp PARA AS CONDICOES DE REPETICAO
+	printf("Qual o CPF do funcionario? ");
+	scanf("%s", &cpf);
+	if(alterarFuncionario_CPF(cpf) != -1){
+		j=alterarFuncionario_CPF(cpf);
+		printf("Menu Alterar Funcionario - CPF %s\n", cpf);
+		rsp=menu_AlterarFuncionario(cpf);
+	}
+	if(alterarFuncionario_CPF(cpf) == -1){
+		printf("Esse CPF nao esta cadastrado!\n1. Digitar outro\n0. Sair\nResposta: ");
+		scanf("%d", &resp);
+		if (resp==1){
+			funcao_AlterarFuncionario();
+		}
+	}
+	if(rsp==1){
+		char cpf[12];
+		do{
+			printf("Digite o novo CPF: ");
+			scanf("%s", cpf);
+			resp=verificarExistenciaCPF(cpf);//Verifica a existencia do CPF. Retorna 10 se ja existir ou 5 se nao existir
+			if(resp==5){
+				strcpy(func[j].cpf, cpf);
+				printf("CPF alterado com sucesso!\n");
+			}else if (resp==10){
+				printf("Esse cpf ja existe.\n1.digitar outro\n2.Sair\nResposta: ");
+				scanf("%d", &resp);
+			}
+		}while(resp==1);
+	}
+	if(rsp==2){
+		printf("Qual o novo nome? ");
+		scanf("%s", &func[j].nome);
+		printf("Nome alterado com sucesso!");
+	}
+	if(rsp==3){
+		do{
+			printf ("Qual a nova data de nascimento? ");
+			scanf ("%d%d%d", &func[j].dt_nasc.dia, &func[j].dt_nasc.mes, &func[j].dt_nasc.ano);
+			if (valida_data(func[j].dt_nasc.dia, func[j].dt_nasc.mes, func[j].dt_nasc.ano)==0){
+				printf ("Data invalida! Digite novamente: ");
+			}else{
+				printf("Data de nascimento alterada com sucesso!");
+			}
+		}while (valida_data(func[j].dt_nasc.dia, func[j].dt_nasc.mes, func[j].dt_nasc.ano)==0);
+	}
+	if(rsp==4){
+		do{
+			printf ("Qual a nova data de admissao? ");
+			scanf ("%d%d%d", &func[j].dt_adm.dia, &func[j].dt_adm.mes, &func[j].dt_adm.ano);
+			if (valida_data(func[j].dt_adm.dia, func[j].dt_adm.mes, func[j].dt_adm.ano) == 0){
+				printf ("Data invalida! Digite novamente:");
+			}else{
+				printf("Data de admissao alterada com sucesso!");
+			}
+		}while (valida_data(func[j].dt_adm.dia, func[j].dt_adm.mes, func[j].dt_adm.ano) == 0);
+	}
+	if(rsp==5){
+		printf("Qual o novo cargo? ");
+  	   	scanf("%d", &func[j].cargo);
+		printf("Cargo alterado com sucesso!");
+	}
+	if(rsp==0){
+		return 0;
+	}
+	return 0;
+}
 /*
  *     1.3 Funcao Transferir Funcionario de Departmento: Altera o departamento
  */
@@ -138,11 +243,11 @@ int menuFuncionario(){
  */
 void mostrarDados(int i) {
 	int j, k, nomeDep; //ESSAS VARIAVEIS SERVEM PARA MOSTRAR O NOME DO DEPARTAMENTO TAMBEM
-	printf("CPF: %s\n", func[i].cpf);
-	printf("Nome: %s\n",func[i].nome);
-	printf("Data de Admissao: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
-	printf("Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
-	printf("Codigo do Cargo: %d\n",func[i].cargo);
+	printf("  CPF: %s\n", func[i].cpf);
+	printf("  Nome: %s\n",func[i].nome);
+	printf("  Data de Admissao: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
+	printf("  Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
+	printf("  Codigo do Cargo: %d\n",func[i].cargo);
 	
 	j=func[i].dept;            //=============================
 	for(k=0;k<11;k++){         // PARA MOSTRAR
@@ -151,8 +256,8 @@ void mostrarDados(int i) {
 			break;             //=============================
 		}
 	}
-	printf("Departamento: %d (%s)\n",func[i].dept, dep[nomeDep].nome);
-	printf ("Funcionario indice: %d \n\n", i); //extra para informar o indice dele em func
+	printf("  Departamento: %d (%s)\n",func[i].dept, dep[nomeDep].nome);
+	printf("-> Funcionario indice: %d \n\n", i); //extra para informar o indice dele em func
 }
 void listarTodos(int cont){
 	int i;
@@ -201,6 +306,7 @@ int menuDepartamento(){
 	printf("0. Sair\n");//Saida
 	printf("Digite sua resposta: ");
 	scanf("%d", &resp);
+	system ("cls || clear" );
 	return resp;
 }
 //  #2.1: Criar Departamento
@@ -380,126 +486,12 @@ void matrizControle(int dep, int func) {
 	controle[1][func] = func;
 
 }
-int pesquisarFuncionario(){
-	int i;
-	char cpf[12];
-	int result;
-	printf("Digite um CPF: ");
-	scanf("%s", cpf);
-	for(i=0;i<150;i++){
-		result = strcmp(cpf, func[i].cpf);
-		if (result==0){
-			return 0;
-		}else{
-			return -1;
-		}
-	}
-}
-int menu_AlterarFuncionario(char cpf[12]){
-	int resp;
-	printf("1. CPF\n");
-	printf("2. Nome\n");
-	printf("3. Data de Nascimento\n");
-	printf("4. Data de Admissao na Empresa\n");
-	printf("5. Cargo\n");
-	printf("0. Sair\n");
-	printf("Digite uma opcao: ");
-	scanf("%d", &resp);
-	return resp;
-}
-int alterarFuncionario_CPF(char cpf[12]){
-	int i;
-	for(i=0;i<150;i++){
-		if(strcmp(func[i].cpf, cpf)==0){
-			return i;
-		}
-	}
-	return -1;
-}
-int verificarExistenciaCPF(char cpf[12]){
-	int i;
-	for(i=0;i<150;i++){
-		if(strcmp(func[i].cpf, cpf)==0){
-			printf("%s", cpf);
-			return 10; //Se existir
-		}
-	}
-	return 5; //Se nao existir
-}
-int funcao_AlterarFuncionario(){
-	char cpf[12];
-	int i, j;
-	int resp, rsp; //rsp PARA O MENU e resp PARA AS CONDICOES DE REPETICAO
-	printf("Qual o CPF do funcionario? ");
-	scanf("%s", &cpf);
-	if(alterarFuncionario_CPF(cpf) != -1){
-		j=alterarFuncionario_CPF(cpf);
-		printf("Menu Alterar Funcionario - CPF %s\n", cpf);
-		rsp=menu_AlterarFuncionario(cpf);
-	}
-	if(alterarFuncionario_CPF(cpf) == -1){
-		printf("Esse CPF nao esta cadastrado!\n1.digitar outro\n0.Sair\nResposta: ");
-		scanf("%d", &resp);
-		if (resp==1){
-			funcao_AlterarFuncionario();
-		}
-	}
-	if(rsp==1){
-		char cpf[12];
-		do{
-			printf("Digite o novo CPF: ");
-			scanf("%s", cpf);
-			resp=verificarExistenciaCPF(cpf);
-			if(resp==5){
-				strcpy(func[j].cpf, cpf);
-			}else if (resp==10){
-				printf("Esse cpf ja existe.\n1.digitar outro\n2.Sair\nResposta: ");
-				scanf("%d", &resp);
-			}
-		}while(resp==1);
-	}
-	if(rsp==2){
-		printf("Qual o novo nome? ");
-		scanf("%s", &func[j].nome);
-		printf("Nome alterado com sucesso!");
-	}
-	if(rsp==3){
-		do{
-			printf ("Qual a nova data de nascimento? ");
-			scanf ("%d%d%d", &func[j].dt_nasc.dia, &func[j].dt_nasc.mes, &func[j].dt_nasc.ano);
-			if (valida_data(func[j].dt_nasc.dia, func[j].dt_nasc.mes, func[j].dt_nasc.ano)==0){
-				printf ("Data invalida! Digite novamente: ");
-			}else{
-				printf("Data de nascimento alterada com sucesso!");
-			}
-		}while (valida_data(func[j].dt_nasc.dia, func[j].dt_nasc.mes, func[j].dt_nasc.ano)==0);
-	}
-	if(rsp==4){
-		do{
-			printf ("Qual a nova data de admissao? ");
-			scanf ("%d%d%d", &func[j].dt_adm.dia, &func[j].dt_adm.mes, &func[j].dt_adm.ano);
-			if (valida_data(func[j].dt_adm.dia, func[j].dt_adm.mes, func[j].dt_adm.ano) == 0){
-				printf ("Data invalida! Digite novamente:");
-			}else{
-				printf("Data de admissao alterada com sucesso!");
-			}
-		}while (valida_data(func[j].dt_adm.dia, func[j].dt_adm.mes, func[j].dt_adm.ano) == 0);
-	}
-	if(rsp==5){
-		printf("Qual o novo cargo? ");
-  	   	scanf("%d", &func[j].cargo);
-		printf("Cargo alterado com sucesso!");
-	}
-	if(rsp==0){
-		return 0;
-	}
-	return 0;
-}
+
 /*               MAIN               */
 int main (){
 
 	int i;
-	int respP, respF, respD;
+	int respP, respF, respD; //respP=Principal, respF=Funcionario, respD=Departamento
 	char cpf[12];
 	int cont, contDep=0;
 	controle[0][0]=-1;
@@ -524,13 +516,6 @@ int main (){
 								break; //LISTAR POR DEPARTAMENTO
                   		case 7: testecontrole();
                   				break;
-                  		case 8: if(pesquisarFuncionario()==0){
-                  					printf("O funcionario existe :p");
-								}
-								if(pesquisarFuncionario()==-1){
-									printf("O funcionario nao existe :(");
-								}
-							break;
                         case 0: break; //SAIR
             			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
 					}
