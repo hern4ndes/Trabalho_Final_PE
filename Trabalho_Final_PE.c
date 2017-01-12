@@ -4,7 +4,7 @@
 *  Nosso projeto e repositorio no Github: https://github.com/hern4ndes/Trabalho_Final_PE
 */
 
-//ULTIMA ALTERAÇÃO: NOVO LISTAR TODOS, PESQUISAR UM FUNCIONARIO E LISTAR POR DEPARTAMENTO
+//ULTIMA ALTERAï¿½ï¿½O: NOVO LISTAR TODOS, PESQUISAR UM FUNCIONARIO E LISTAR POR DEPARTAMENTO
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -106,21 +106,25 @@ int menuFuncionario(){
  	do{
   		printf ("Departamento a ser designado: ");
  		scanf ("%d", &func[pos].dept);
- 		for(i=0;i<11;i++){
- 			if(func[pos].dept==dep[i].cod){
+ 		for(i=1;i<=11;i++){
+ 			if(func[pos].dept== controle[0][i]){ //// func[pos].dept==dep[i].cod troquei func[pos].dept==dep[i].cod por func[pos].dept==controle[0][i+1] por que precisei de colocar o funcionario que comeÃ§a o Departamento
  				depOK=1;
+				controle[1][i] = pos; // mostra o funcionario que inicia o dapartamento
+
  				break;
 			 }
  		}
 	}while(depOK==0);
 
+
 	j=func[pos].dept;
 	for(k=0;k<11;k++){
 		if(j==dep[k].cod){
 			dep[k].quant++;;
-			break;         
+			break;
 		}
 	}
+
 	system("clear || cls");
 	printf("Funcionario cadastrado com sucesso! Verifique seus dados:\n");
  	mostrarDados(pos);
@@ -239,13 +243,17 @@ int funcao_AlterarFuncionario(){
 		  //
 /*
  *     1.4 Funcao Demitir funcionario: Apaga o funcionario dos dados(??)
+
  */
+ void  demitirfunciona(/* arguments */) {
+ 	/* code */
+ }
           //
 		  //IMPLEMENTACAO
 		  //
 /*
  *     1.5 Funcao Pesquisar funcionario: Lista UM funcionario
- */		  
+ */
 void pesquisarFuncionario(){
 	char cpf[12];
 	int i, resp=0;
@@ -275,7 +283,7 @@ void mostrarDados(int i) {
 	printf("  Data de Admissao: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
 	printf("  Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
 	printf("  Codigo do Cargo: %d\n",func[i].cargo);
-	
+
 	j=func[i].dept;            //=============================
 	for(k=0;k<11;k++){         // PARA MOSTRAR
 		if(j==dep[k].cod){     // O NOME DO DEPARTAMENTO
@@ -420,7 +428,7 @@ void alterarNomeDept(){
         //Retorno:
 void consultarDepartamento(){
 	system("clear || cls");
-	printf("\tConsultar Departamento\n\n");	
+	printf("\tConsultar Departamento\n\n");
 	int i;
 	int cod;
 	int nope=0;
@@ -479,12 +487,18 @@ void excluirDepartamento(int contDep){
 						printf("Ha fucionario(s) lotado(s) no departamento %d. Nao e possivel excluir o departamento!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo: ", cod);
 						scanf("%d", &resp3);
 					}
-					if(dep[i].quant==0){
-						cont=contDep;
-						
+					else if(dep[i].quant==0){
+						int i;
+						for ( i = cod;i <= 11; i ++) {//// exclui o departamento sobrescrevendo com o valor do departamento que sucede
+
+							controle[0][i] = controle[0][i+1];
+							controle[1][i] = controle[1][i+1];
+						}
+
+
 					}
 				}
-				if(resp2[0]=='n'){
+				else if(resp2[0]=='n'){
 					resp=1;
 				}
 				resp=5;
