@@ -41,6 +41,7 @@ tDepartamento dep[11];
  * [RAIZ]Funcao Menu Relatorio: Exibe o Menu Relatorio, menu raiz.
  * A partir dele, sao chamados os menus Funcionario e Departamento.
  */
+void mostrarDados(int i);
 int menuRelatorio(){
 	int resp;
 	printf("\t\tMenu Principal\n\n");
@@ -460,36 +461,40 @@ void listarDepartamento(){
         //Objetivo:
         //Parametros:
         //Retorno:
-
-void excluirDepartamento(){
-	//NAO FUNCIONA AINDA
-	int i;
-	int resp=0;
-	char resp2;
+void excluirDepartamento(int contDep){
+	int i, j, cont;
+	int resp=0, resp3=0, stop;
+	char resp2[1];
 	int cod;
 	do{
 		printf("Qual o codigo do departamento? ");
 		scanf("%d", &cod);
-		for(i=0;i,11;i++){
+		for(i=0;i<11;i++){
 			if(dep[i].cod==cod){
-				printf("Departamento %d - %s - Funcionarios: %d\n", dep[i].cod, dep[i].nome, dep[i].quant);
-				do{
-					printf("Deseja realmente excluir o departamento? <s/n>\nResposta: ");
-					scanf("%c", &resp2);
-					if((resp2=='s')||(resp2=='S')){
-						if(dep[i].quant>0){
-							printf("“Há fucionario(s) lotado(s) no departamento %d\n", dep[i].cod);
-							printf("Não é possível excluir o departamento!\n");
-							printf("Digite 0 para retornar ao menu departamento ou 1 para digitar um novo código: ");
-							scanf("%d", &resp);
-						}else if(dep[i].quant==0){
-							printf("Exclusao...\n");
-						}	
+				printf("Departamento %d - %s\n", dep[i].cod, dep[i].nome);
+				printf("Deseja realmente excluir o departamento? <s/n>: ");
+				scanf("%s", resp2);
+				if(resp2[0]=='s'){
+					if(dep[i].quant>0){
+						printf("Ha fucionario(s) lotado(s) no departamento %d. Nao e possivel excluir o departamento!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo: ", cod);
+						scanf("%d", &resp3);
 					}
-				}while((resp2=='n')||(resp2=='N'));
+					if(dep[i].quant==0){
+						cont=contDep;
+						
+					}
+				}
+				if(resp2[0]=='n'){
+					resp=1;
+				}
+				resp=5;
 			}
 		}
-	}while(resp==1);
+		if(resp==0){
+			printf("Departamento %d nao existe!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo: ", cod);
+			scanf("%d", &resp);
+		}
+	}while((resp==1)||(resp3==1));
 }
 //-------------------------------------------------------FIM DAS FUNCOES DE DEPARTAMENTO--------------------------------------------------
 
@@ -579,7 +584,7 @@ int main (){
 								break; //CONSULTAR DEPT
 						case 4: listarDepartamento();
 								break; //LISTAR DEPT;
-						case 5: excluirDepartamento();
+						case 5: excluirDepartamento(contDep);
 								break; //EXCLUIR DEPT
 						case 0: break; //SAIR
 					}
