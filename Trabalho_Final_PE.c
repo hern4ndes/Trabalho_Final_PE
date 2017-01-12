@@ -109,8 +109,9 @@ int menuFuncionario(){
  		for(i=1;i<=11;i++){
  			if(func[pos].dept== controle[0][i]){ //// func[pos].dept==dep[i].cod troquei func[pos].dept==dep[i].cod por func[pos].dept==controle[0][i+1] por que precisei de colocar o funcionario que começa o Departamento
  				depOK=1;
+				if(controle[1][i] == -1){// se nao tiver nem um funcionario no Departamento
 				controle[1][i] = pos; // mostra o funcionario que inicia o dapartamento
-
+			}
  				break;
 			 }
  		}
