@@ -3,6 +3,8 @@
 *					 Hernandes Erick
 *  Nosso projeto e repositorio no Github: https://github.com/hern4ndes/Trabalho_Final_PE
 */
+
+//ULTIMA ALTERAÇÃO: NOVO LISTAR TODOS, PESQUISAR UM FUNCIONARIO E LISTAR POR DEPARTAMENTO
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -82,6 +84,7 @@ int menuFuncionario(){
  	scanf ("%s", &func[pos].cpf);
  	printf ("Nome Completo: ");
  	scanf (" %100[^\n]s", &func[pos].nome);
+ 	/*
   	do{
  		printf ("Data de Admiss%co: ", 198);
  		scanf ("%d%d%d", &func[pos].dt_adm.dia, &func[pos].dt_adm.mes, &func[pos].dt_adm.ano);
@@ -96,6 +99,7 @@ int menuFuncionario(){
  			printf ("Data inv%clida! Digite novamente\n", 160);
  		}
  	} while (valida_data(func[pos].dt_nasc.dia, func[pos].dt_nasc.mes, func[pos].dt_nasc.ano)==0);
+ 	*/
  	printf ("Codigo do cargo a ser designado: ");
  	scanf ("%d", &func[pos].cargo);
  	do{
@@ -239,7 +243,29 @@ int funcao_AlterarFuncionario(){
 		  //IMPLEMENTACAO
 		  //
 /*
- *     1.5 Funcao Listar Todos: Lista todos os funcionarios de um departamento
+ *     1.5 Funcao Pesquisar funcionario: Lista UM funcionario
+ */		  
+void pesquisarFuncionario(){
+	char cpf[12];
+	int i, resp=0;
+	do{
+		printf("Qual o CPF do funcionario? ");
+		scanf("%s", cpf);
+		for(i=0;i<150;i++){
+			if(strcmp(func[i].cpf, cpf)==0){
+				mostrarDados(i);
+				resp=5;// 5 se o funcionario foi encontrado e tudo ocorreu bem
+				break;
+			}
+		}
+		if(resp!=5){
+			printf("CPF %s nao cadastrado!\nDigite 0 para retornar ao menu funcionario ou 1 para digitar um novo cpf: ", cpf);
+			scanf("%d", &resp);
+		}
+	}while(resp==1);
+}
+/*
+ *     1.6 Funcao Listar Todos: Lista todos os funcionarios separando por departamento
  */
 void mostrarDados(int i) {
 	int j, k, nomeDep; //ESSAS VARIAVEIS SERVEM PARA MOSTRAR O NOME DO DEPARTAMENTO TAMBEM
@@ -260,31 +286,43 @@ void mostrarDados(int i) {
 	printf("-> Funcionario indice: %d \n\n", i); //extra para informar o indice dele em func
 }
 void listarTodos(int cont){
-	int i;
-	printf ("Lista de funcionarios cadastrados:\n");
+	int i, j;
+	printf ("Lista de funcionarios:\n");
 	for(i=0;i<11;i++){
 		if(dep[i].cod>0){
-			printf("Departamento: %d (%s)", dep[i].cod, dep[i].nome);
-			
+			printf("----------------------------------------\n");
+			printf("Departamento %d - %s\n", dep[i].cod, dep[i].nome);
+			printf("----------------------------------------\n");
+			for(j=0;j<cont;j++){
+				if(dep[i].cod==func[j].dept){
+					mostrarDados(j);
+				}
+			}
 		}
-
-	}
-
-	for (i=0;i<cont;i++){                // AGORA ELA ~DEVE~ CLASSIFICAR POR DEPARTAMENTOS
-		mostrarDados(i);                 // por isso, tem q refazer
 	}
 }
 
 /*
- * 1.6 Funcao Listar Por Departamento: Lista todos os funcionarios de um departamento.
+ * 1.7 Funcao Listar Por Departamento: Lista todos os funcionarios de um departamento.
  * Eh solicitado o codigo do departamento e eh listado os funcionarios.
  */
 void listarPorDept(int cont){
-	int i;
-	printf ("Lista de funcion%crios deste departamento:\nessa funcao ainda nao funciona", 160);
-	for (i=0;i<cont;i++){
-		printf("  CPF: %s\n  Nome: %s\n  Data de Admissao: %d/%d/%d\n  Data de Nascimento: %d/%d/%d\n  Codigo do Cargo: %d\n  Departamento: %d\n\n\n", func[i].cpf, func[i].nome, func[i].dt_adm.dia, func[i].dt_adm.mes, func[i].dt_adm.ano, func[i].dt_nasc.dia, func[i].dt_nasc.mes, func[i].dt_nasc.ano, func[i].cargo, func[i].dept);
-		printf("Funcion%crio indice: %d\nDEPARTAMENTO: %d\n\n", 160, i, func[i].dept);
+	int i, j, resp=0, cod;
+	printf("Qual o codigo do departamento? ");
+	scanf("%d", &cod);
+	for(i=0; i<11;i++){
+		if(dep[i].cod==cod){
+			printf("Departamento %d - %s\n", dep[i].cod, dep[i].nome);
+			resp=5;// 5 para se achar o departamento e tudo ocorrer bem
+			for(j=0;j<150;j++){
+				if(dep[i].cod==func[j].dept){
+					mostrarDados(j);
+				}
+			}
+		}
+	}
+	if(resp==0){
+		printf("Departamento %d nao existe!\n", cod);
 	}
 }
 
@@ -396,7 +434,7 @@ void consultarDepartamento(){
 		}
 	}
 	if(nope==1){
-		printf("ï¿½Departamento <cod> nao existe!");
+		printf("Departamento %d nao existe!", cod);
 	}
 }
 //    #2.4: Listar Departamentos
@@ -423,26 +461,35 @@ void listarDepartamento(){
         //Parametros:
         //Retorno:
 
-int pesquisarExcluirDepartamento(){
-	int i, cod, resp;
+void excluirDepartamento(){
+	//NAO FUNCIONA AINDA
+	int i;
+	int resp=0;
+	char resp2;
+	int cod;
 	do{
 		printf("Qual o codigo do departamento? ");
 		scanf("%d", &cod);
-		for(i=0;i<11;i++){
+		for(i=0;i,11;i++){
 			if(dep[i].cod==cod){
-				return 1; //SIM!
+				printf("Departamento %d - %s - Funcionarios: %d\n", dep[i].cod, dep[i].nome, dep[i].quant);
+				do{
+					printf("Deseja realmente excluir o departamento? <s/n>\nResposta: ");
+					scanf("%c", &resp2);
+					if((resp2=='s')||(resp2=='S')){
+						if(dep[i].quant>0){
+							printf("“Há fucionario(s) lotado(s) no departamento %d\n", dep[i].cod);
+							printf("Não é possível excluir o departamento!\n");
+							printf("Digite 0 para retornar ao menu departamento ou 1 para digitar um novo código: ");
+							scanf("%d", &resp);
+						}else if(dep[i].quant==0){
+							printf("Exclusao...\n");
+						}	
+					}
+				}while((resp2=='n')||(resp2=='N'));
 			}
 		}
-		printf("Departamento %d nao existe!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo: ", cod);
-		scanf("%d", &resp);
-	}while(resp=1);
-}
-void excluirDepartamento(){
-	int resp;
-	resp=pesquisarExcluirDepartamento();
-	if(resp==1){
-		printf("\nDaqui a pouco esse bagulho exclui, blz?\n");
-	}
+	}while(resp==1);
 }
 //-------------------------------------------------------FIM DAS FUNCOES DE DEPARTAMENTO--------------------------------------------------
 
@@ -510,12 +557,14 @@ int main (){
 								scanf("%s", cpf);
 								break; //TRANSFERIR
 						case 4: break; //DEMITIR
-						case 5: listarTodos(controle[1][0]);
-	   	   	   	   				break; //LISTAR TODOS
-	   	   				case 6: listarPorDept(controle[1][0]);
-								break; //LISTAR POR DEPARTAMENTO
-                  		case 7: testecontrole();
-                  				break;
+						case 5: pesquisarFuncionario();
+								break;//PESQUISAR FUNCIONARIO
+	   	   				case 6: listarTodos(controle[1][0]);
+								break; //LISTAR TODOS
+						case 7: listarPorDept(controle[1][0]);
+								break;//LISTAR POR DEPARTAMENTO
+                  		case 8: testecontrole();
+                  				break;//MATRIZ CONTROLE
                         case 0: break; //SAIR
             			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
 					}
