@@ -474,10 +474,14 @@
 				printf("O departamento %d ja existe!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo\n",dep[contDep].cod );
 				int resp;
 				scanf("%d",&resp);
-				if (resp == 1) {
-					printf("Qual o codigo do departamento? ");
-					scanf("%d", &dep[contDep].cod);
-				}
+				if (resp == 1){
+					 printf("Qual o codigo do departamento? ");
+					 scanf("%d", &dep[contDep].cod);
+				 }else if( resp == 0 ){
+				  menuDepartamento();
+				}	else {
+				printf("digite uma opcao valida\n" );
+			}
 			}
 		}
 		printf("Qual o nome do departamento? ");
@@ -490,6 +494,7 @@
 		return contDep; //Quando for chamado novamente, esse valor retornado eh incrementado no main
 		//e volta como parametro.
 	}
+
 
 	//2.2 alterar nome de departamento
 	//Objetivo: altera o nome de um departamento
