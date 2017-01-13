@@ -3,19 +3,17 @@
 *					 Hernandes Erick
 *  Nosso projeto e repositorio no Github: https://github.com/hern4ndes/Trabalho_Final_PE
 */
-
-//ULTIMA ALTERA��O: NOVO LISTAR TODOS, PESQUISAR UM FUNCIONARIO E LISTAR POR DEPARTAMENTO
+// includes
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-/*                   ESTRUTURAS                 */
+//estruturas
 typedef struct{
 	int dia;
 	int mes;
 	int ano;
 }tdata;
-
 typedef struct{
 	char cpf[12];
 	char nome[100];
@@ -24,25 +22,95 @@ typedef struct{
 	int cargo;
 	int dept;
 }tFuncionario;
-
 typedef struct{
 	char nome[100];
 	int cod;
 	int quant;
 }tDepartamento;
 
-/*     VARIAVEIS GLOBAIS (VETORES/MATRIZES)     */
+
+//variaveis globais
 tFuncionario func[150];
 int prox[150];
 int controle[1][11];
 tDepartamento dep[11];
-/*                    FUNCOES                   */
-/*
- * [RAIZ]Funcao Menu Relatorio: Exibe o Menu Relatorio, menu raiz.
- * A partir dele, sao chamados os menus Funcionario e Departamento.
- */
-void mostrarDados(int i);
-int menuRelatorio(){
+
+
+
+
+//FUNCOES UTEIS PARA OUTRAS FUNCOES (valida-datas, mostra dados, etc)
+        //Objetivo:
+        //Parametros:
+        //Retorno:
+void mostrarDados(int i) {
+	int j, k, nomeDep; //ESSAS VARIAVEIS SERVEM PARA MOSTRAR O NOME DO DEPARTAMENTO TAMBEM
+	printf("  CPF: %s\n", func[i].cpf);
+	printf("  Nome: %s\n",func[i].nome);
+	printf("  Data de Admissao: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
+	printf("  Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
+	printf("  Codigo do Cargo: %d\n",func[i].cargo);
+
+	j=func[i].dept;            //=============================
+	for(k=0;k<11;k++){         // PARA MOSTRAR
+		if(j==dep[k].cod){     // O NOME DO DEPARTAMENTO
+			nomeDep=k;         // NA HORA DE MOSTRAR OS DADOS.
+			break;             //=============================
+		}
+	}
+	printf("  Departamento: %d (%s)\n",func[i].dept, dep[nomeDep].nome);
+	printf("-> Funcionario indice: %d \n\n", i); //extra para informar o indice dele em func
+}
+        //Objetivo:
+        //Parametros:
+        //Retorno:
+int valida_data(int dia, int mes, int ano){
+    if ((dia>=1 && dia<=31)&&(mes>=1 && mes<=12)&&(ano>=1900 && ano<=2100))
+        {
+            if ((dia==29 && mes==2) && ((ano%4)==0)){
+                return 1;
+            }
+            if (dia<=28 && mes==2){
+                return 1;
+            }
+            if ((dia<=30) && (mes==4 || mes==6 || mes==9 || mes==11)){
+                return 1;
+            }
+            if ((dia<=31) && (mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10 || mes==12)){
+                return 1;
+            } else{
+                return 0;
+            }
+        } else{
+                return 0;
+		}
+}
+        //Objetivo:
+        //Parametros:
+        //Retorno:
+void testecontrole(){
+	int i = 0, j = 0;
+	for (i = 0; i <= 1; i++){
+		for (j = 0; j <= 10; j++) {
+			printf("%d ", controle[i][j]);
+		}
+		printf("\n");
+	}
+}
+        //Objetivo:
+        //Parametros:
+        //Retorno:
+void matrizControle(int dep, int func) {
+	controle[1][func] = func;
+}
+
+
+
+
+//0. MENU PRINCIPAL
+        //Objetivo:
+        //Parametros:
+        //Retorno:
+int menuPrincipal(){
 	int resp;
 	printf("\t\tMenu Principal\n\n");
 	printf("1. Funcionario\n");
@@ -53,9 +121,17 @@ int menuRelatorio(){
 	return resp;
 }
 
-/*
- * 1. Funcao Menu Funcionario: Mostra as opcoes de Funcionario
- */
+
+
+
+
+
+
+
+//1. MENU FUNCIONARIO e suas funcoes
+        //Objetivo:
+        //Parametros:
+        //Retorno:
 int menuFuncionario(){
 	int resp;
 	system("clear || cls");
@@ -73,10 +149,11 @@ int menuFuncionario(){
 	system("cls || clear" );
     return resp;
 }
-/*
- *     1.1 Funcao Cadastrar Funcionario: Cadastra um funcionario na base de dados.
- */
- int cadastarFuncionario(tFuncionario func[150], int pos){
+	//1.1 cadastrar funcionario
+        //Objetivo:
+        //Parametros:
+        //Retorno:
+int cadastarFuncionario(tFuncionario func[150], int pos){
  	int depOK=0;//1: Departamento OK, 0:Departamento nao existe
  	int i, j, k;
  	printf ("1. Cadastrar novo funcionario\n");
@@ -116,8 +193,6 @@ int menuFuncionario(){
 			 }
  		}
 	}while(depOK==0);
-
-
 	j=func[pos].dept;
 	for(k=0;k<11;k++){
 		if(j==dep[k].cod){
@@ -125,16 +200,17 @@ int menuFuncionario(){
 			break;
 		}
 	}
-
 	system("clear || cls");
 	printf("Funcionario cadastrado com sucesso! Verifique seus dados:\n");
  	mostrarDados(pos);
 	controle[1][0]++;
  	return 1;
  }
-/*
- *     1.2 Funcao Alterar dados do funcionario: Altera dados do funcionario
- */
+ 
+	//1.2 alterar dados do funcionario
+        //Objetivo:
+        //Parametros:
+        //Retorno:
 int menu_AlterarFuncionario(char cpf[12]){
 	int resp;
 	printf("1. CPF\n");
@@ -236,25 +312,23 @@ int funcao_AlterarFuncionario(){
 	}
 	return 0;
 }
-/*
- *     1.3 Funcao Transferir Funcionario de Departmento: Altera o departamento
- */
-          //
-		  //IMPLEMENTACAO
-		  //
-/*
- *     1.4 Funcao Demitir funcionario: Apaga o funcionario dos dados(??)
 
- */
- void  demitirfunciona(/* arguments */) {
- 	/* code */
- }
-          //
-		  //IMPLEMENTACAO
-		  //
-/*
- *     1.5 Funcao Pesquisar funcionario: Lista UM funcionario
- */
+	//1.3 transferir funcionario
+        //Objetivo:
+        //Parametros:
+        //Retorno:
+/* CODE */
+
+	//1.4 demitir funcionario
+        //Objetivo:
+        //Parametros:
+        //Retorno:
+/* CODE */
+
+	//1.5 pesquisar funcionario
+        //Objetivo:
+        //Parametros:
+        //Retorno:
 void pesquisarFuncionario(){
 	char cpf[12];
 	int i, resp=0;
@@ -274,27 +348,11 @@ void pesquisarFuncionario(){
 		}
 	}while(resp==1);
 }
-/*
- *     1.6 Funcao Listar Todos: Lista todos os funcionarios separando por departamento
- */
-void mostrarDados(int i) {
-	int j, k, nomeDep; //ESSAS VARIAVEIS SERVEM PARA MOSTRAR O NOME DO DEPARTAMENTO TAMBEM
-	printf("  CPF: %s\n", func[i].cpf);
-	printf("  Nome: %s\n",func[i].nome);
-	printf("  Data de Admissao: %d/%d/%d\n",func[i].dt_adm.dia,func[i].dt_adm.mes,func[i].dt_adm.ano);
-	printf("  Data de Nascimento: %d/%d/%d\n",func[i].dt_nasc.dia ,func[i].dt_nasc.mes, func[i].dt_nasc.ano);
-	printf("  Codigo do Cargo: %d\n",func[i].cargo);
 
-	j=func[i].dept;            //=============================
-	for(k=0;k<11;k++){         // PARA MOSTRAR
-		if(j==dep[k].cod){     // O NOME DO DEPARTAMENTO
-			nomeDep=k;         // NA HORA DE MOSTRAR OS DADOS.
-			break;             //=============================
-		}
-	}
-	printf("  Departamento: %d (%s)\n",func[i].dept, dep[nomeDep].nome);
-	printf("-> Funcionario indice: %d \n\n", i); //extra para informar o indice dele em func
-}
+	//1.6 listar todos os funcionarios
+        //Objetivo:
+        //Parametros:
+        //Retorno:
 void listarTodos(int cont){
 	int i, j;
 	printf ("Lista de funcionarios:\n");
@@ -312,10 +370,10 @@ void listarTodos(int cont){
 	}
 }
 
-/*
- * 1.7 Funcao Listar Por Departamento: Lista todos os funcionarios de um departamento.
- * Eh solicitado o codigo do departamento e eh listado os funcionarios.
- */
+	//1.7 listar um departamento
+        //Objetivo:
+        //Parametros:
+        //Retorno:
 void listarPorDept(int cont){
 	int i, j, resp=0, cod;
 	printf("Qual o codigo do departamento? ");
@@ -337,8 +395,14 @@ void listarPorDept(int cont){
 }
 
 
-//-------------------------------------------------------INICIO DAS FUNCOES DE DEPARTAMENTO--------------------------------------------------
-//2. Funcao Menu Departamento: Mostra as opcoes de Departamento
+
+
+
+
+
+
+
+//2. MENU DEPARTAMENTO e suas funcoes
     //Objetivo: Mostrar o menu Departamento
     //Parametros: Nenhum
     //Retorno: A resposta do usuario, ou seja, a opcao desejada do menu
@@ -357,10 +421,12 @@ int menuDepartamento(){
 	system ("cls || clear" );
 	return resp;
 }
-//  #2.1: Criar Departamento
+
+	//2.1 criar departamento
         //Objetivo: Criar um departamento
         //Parametros: contDep que controla os departamentos cadastrados
         //Retorno: retorna o contDep pra fazer incremento
+
 int criarDepartamento(int contDep){
 	system("clear || cls");
 	printf("\tCriar Departamento\n\n");
@@ -389,7 +455,8 @@ int criarDepartamento(int contDep){
 	return contDep; //Quando for chamado novamente, esse valor retornado eh incrementado no main
                  	//e volta como parametro.
 }
-//    #2.2: Alterar nome do Departamento
+        
+	//2.2 alterar nome de departamento
         //Objetivo:
         //Parametros:
         //Retorno:
@@ -423,7 +490,8 @@ void alterarNomeDept(){
 		}
 	}while(resp==1);
 }
-//    #2.3: Consultar Departamento
+        
+	//2.3 consultar departamento
         //Objetivo:
         //Parametros:
         //Retorno:
@@ -446,8 +514,9 @@ void consultarDepartamento(){
 	if(nope==1){
 		printf("Departamento %d nao existe!", cod);
 	}
-}
-//    #2.4: Listar Departamentos
+}  
+        
+	//2.4 listar departamentos
         //Objetivo:
         //Parametros:
         //Retorno:
@@ -466,7 +535,8 @@ void listarDepartamento(){
 		printf("\nCodigo: %d\nNome: %s\nQuantidade de funcionarios cadastrados: %d\n", dep[i].cod, dep[i].nome, dep[i].quant);
 	}
 }
-//    #2.5: Excluir Departamento
+        
+	//2.5 excluir departamento
         //Objetivo:
         //Parametros:
         //Retorno:
@@ -495,8 +565,6 @@ void excluirDepartamento(int contDep){
 							controle[0][i] = controle[0][i+1];
 							controle[1][i] = controle[1][i+1];
 						}
-
-
 					}
 				}
 				else if(resp2[0]=='n'){
@@ -511,105 +579,94 @@ void excluirDepartamento(int contDep){
 		}
 	}while((resp==1)||(resp3==1));
 }
-//-------------------------------------------------------FIM DAS FUNCOES DE DEPARTAMENTO--------------------------------------------------
 
 
-/*          OUTRAS FUNCOES         */
-/*
- * Funcao Valida Datas: Valida as datas que sao inseridas no programa
- */
-int valida_data(int dia, int mes, int ano){
-    if ((dia>=1 && dia<=31)&&(mes>=1 && mes<=12)&&(ano>=1900 && ano<=2100))
-        {
-            if ((dia==29 && mes==2) && ((ano%4)==0)){
-                return 1;
-            }
-            if (dia<=28 && mes==2){
-                return 1;
-            }
-            if ((dia<=30) && (mes==4 || mes==6 || mes==9 || mes==11)){
-                return 1;
-            }
-            if ((dia<=31) && (mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10 || mes==12)){
-                return 1;
-            } else{
-                return 0;
-            }
-        } else{
-                return 0;
-		}
-}
-void testecontrole(){
-	int i = 0, j = 0;
-	for (i = 0; i <= 1; i++){
-		for (j = 0; j <= 10; j++) {
-			printf("%d ", controle[i][j]);
-		}
-		printf("\n");
-	}
-}
-void matrizControle(int dep, int func) {
 
-	controle[1][func] = func;
 
-}
 
-/*               MAIN               */
+
+
+
+			
+// Main
 int main (){
 
-	int i;
-	int respP, respF, respD; //respP=Principal, respF=Funcionario, respD=Departamento
-	char cpf[12];
-	int cont, contDep=0;
-	controle[0][0]=-1;
+	int i, cont, contDep=0;    //===========
+	char cpf[12];              // VARIAVEIS
+	controle[0][0]=-1;         //===========
 
 	do{
-		respP=menuRelatorio();
-		switch (respP){
-			case 1: respF=menuFuncionario(); //ABRIR MENU FUNCIONARIO
-					switch (respF){
+		switch (menuPrincipal()){
+			case 1:	switch (menuFuncionario()){
 						case 1: cadastarFuncionario(func, controle[1][0]);
 								cont++;
-   			        			break; //CADASTRAR
+								menuFuncionario();
+   			        			break;
+   			        			
             			case 2: funcao_AlterarFuncionario();
-								break; //ALTERAR DADOS
-            			case 3: printf("Digite o CPF do funcion%crio: ", 160);
-								scanf("%s", cpf);
-								break; //TRANSFERIR
-						case 4: break; //DEMITIR
+            					menuFuncionario();
+								break;
+								
+            			case 3: menuFuncionario();
+								break;
+						
+						case 4: menuFuncionario();
+								break;
+						
 						case 5: pesquisarFuncionario();
-								break;//PESQUISAR FUNCIONARIO
-	   	   				case 6: listarTodos(controle[1][0]);
-								break; //LISTAR TODOS
+								menuFuncionario();
+								break;
+								
+						case 6: listarTodos(controle[1][0]);
+								menuFuncionario();
+								break;
+								
 						case 7: listarPorDept(controle[1][0]);
-								break;//LISTAR POR DEPARTAMENTO
+								menuFuncionario();
+								break;
+								
                   		case 8: testecontrole();
-                  				break;//MATRIZ CONTROLE
-                        case 0: break; //SAIR
-            			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
+                  				menuFuncionario();
+                  				break;
+                  				
+                        case 0: break;
+                        
+            			default: printf ("Erro. Por favor, digite novamente. Dessa vez, use uma opcao valida:\n\n");
 					}
    			        break;
+   		
             case 2: switch (menuDepartamento()){
 						case 1: criarDepartamento(contDep);
 								contDep++;
-								break; //CRIAR DEPT
+								menuDepartamento();
+								break;
+								
 						case 2: alterarNomeDept();
-								break; //ALTERAR NOME DEPT
+								menuDepartamento();
+								break;
+								
 						case 3: consultarDepartamento();
-								break; //CONSULTAR DEPT
+								menuDepartamento();
+								break;
+								
 						case 4: listarDepartamento();
-								break; //LISTAR DEPT;
+								menuDepartamento();
+								break;
+								
 						case 5: excluirDepartamento(contDep);
-								break; //EXCLUIR DEPT
-						case 0: break; //SAIR
+								menuDepartamento();
+								break;
+								
+						case 0: break;
 					}
-
 					break;
-            case 0: break; //SAIR
+					
+            case 0: break;
+            
             default: system ("clear || cls");
-					 printf ("Erro. Por favor, digite novamente. Dessa vez, use uma op%c%co v%clida:\n\n", 135, 198, 160);
+					 printf ("Erro. Por favor, digite novamente. Dessa vez, use uma opcao valida:\n\n");
 
 		}
-	}while(respP!=0);
+	}while(menuPrincipal()==0);
 	return 0;
 }
