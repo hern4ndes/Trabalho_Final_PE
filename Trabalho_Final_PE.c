@@ -567,7 +567,7 @@ int excluirDepartamento(int contDep){
 int i, j, cont;
 int resp=0, resp3=0, stop;
 char resp2[1];
-int cod;
+int cod, pos;
 do{
 	printf("Qual o codigo do departamento? ");
 	scanf("%d", &cod);
@@ -576,6 +576,7 @@ do{
 			printf("%d\n",i );
 			printf("%d\n",contDep );
 			printf("Departamento %d - %s\n", dep[i].cod, dep[i].nome);
+			pos=i;
 			printf("Deseja realmente excluir o departamento? <s/n>: ");
 			scanf("%s", resp2);
 			if(resp2[0]=='s'){
@@ -590,8 +591,10 @@ do{
 
 				 controle[0][i+1] = controle[0][i+2];
 				 controle[1][i+1] = controle[1][i+2];
+				 dep[i] = dep[i+1] ;
+
 				}
-					//
+
 					contDep--;
 
 				}
