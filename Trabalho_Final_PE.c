@@ -206,10 +206,10 @@ int cadastarFuncionario(tFuncionario func[150], int pos){
 	controle[1][0]++;
  	return 1;
  }
- 
+
 	//1.2 alterar dados do funcionario
         //Objetivo: mostra o menu alterar funcionario se for digitado um cep valido
-        //Parametros: cpf 
+        //Parametros: cpf
         //Retorno: a resposta
 int menu_AlterarFuncionario(char cpf[12]){
 	int resp;
@@ -342,7 +342,7 @@ void alterarFuncDept(){
 }
 
 	//1.4 demitir funcionario
-        //Objetivo: - 
+        //Objetivo: -
         //Parametros: -
         //Retorno: -
 /* CODE */
@@ -474,10 +474,11 @@ int criarDepartamento(int contDep){
 	controle[0][contDep + 1] = dep[contDep].cod;
 	controle[1][contDep+1]=-1;
 	printf("\nDepartamento criado com sucesso. Pronto para cadastrar funcionarios.\n");
+	contDep++;
 	return contDep; //Quando for chamado novamente, esse valor retornado eh incrementado no main
                  	//e volta como parametro.
 }
-        
+
 	//2.2 alterar nome de departamento
         //Objetivo: altera o nome de um departamento
         //Parametros: nenhum
@@ -512,7 +513,7 @@ void alterarNomeDept(){
 		}
 	}while(resp==1);
 }
-        
+
 	//2.3 consultar departamento
         //Objetivo: consulta a existencia de um departamento e exibe seus dados
         //Parametros: nenhum
@@ -536,8 +537,8 @@ void consultarDepartamento(){
 	if(nope==1){
 		printf("Departamento %d nao existe!", cod);
 	}
-}  
-        
+}
+
 	//2.4 listar departamentos
         //Objetivo: lista todos os departamentos cadastrados
         //Parametros: nenhum
@@ -557,7 +558,7 @@ void listarDepartamento(){
 		printf("\nCodigo: %d\nNome: %s\nQuantidade de funcionarios cadastrados: %d\n", dep[i].cod, dep[i].nome, dep[i].quant);
 	}
 }
-        
+
 	//2.5 excluir departamento
         //Objetivo: exclui um departamento
         //Parametros: contDep pra receber a quantidade de deps cadastrados
@@ -587,6 +588,7 @@ void excluirDepartamento(int contDep){
 							controle[0][i] = controle[0][i+1];
 							controle[1][i] = controle[1][i+1];
 						}
+						contDep--;
 					}
 				}
 				else if(resp2[0]=='n'){
@@ -596,10 +598,11 @@ void excluirDepartamento(int contDep){
 			}
 		}
 		if(resp==0){
-			printf("Departamento %d nao existe!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo: ", cod);
+			printf("Departamento %d  existe!\nDigite 0 para retornar ao menu departamento ou 1 para digitar um novo codigo: ", cod);
 			scanf("%d", &resp);
 		}
 	}while((resp==1)||(resp3==1));
+	return contDep;
 }
 
 
@@ -609,7 +612,7 @@ void excluirDepartamento(int contDep){
 
 
 
-			
+
 // Main
 int main (){
 
@@ -622,7 +625,7 @@ int main (){
 		switch (menuPrincipal()){
 			case 1:	switch (menuFuncionario()){
 				case 1: cadastarFuncionario(func, controle[1][0]);
-				cont++;
+
 				//menuFuncionario();
 				break;
 
@@ -659,8 +662,8 @@ int main (){
 			break;
 
 			case 2: switch (menuDepartamento()){
-				case 1: criarDepartamento(contDep);
-					contDep++;
+				case 1:contDep = criarDepartamento(contDep);
+
 				//menuDepartamento();
 				break;
 
@@ -676,8 +679,8 @@ int main (){
 				//menuDepartamento();
 				break;
 
-				case 5: excluirDepartamento(contDep);
-				//menuDepartamento();
+				case 5: contDep = excluirDepartamento(contDep);
+												//menuDepartamento();
 				break;
 
 				case 0: break;
