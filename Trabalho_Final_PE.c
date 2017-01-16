@@ -91,7 +91,7 @@
 		int i = 0, j = 0;
 		for (i = 0; i <= 1; i++){
 			for (j = 0; j <= 10; j++) {
-				printf("%d ", controle[i][j]);
+				printf("%3d ", controle[i][j]);
 			}
 			printf("\n");
 		}
@@ -435,6 +435,42 @@
 			printf("Departamento %d nao existe!\n", cod);
 		}
 	}
+	void listarpordptinprox(int contDep) {
+		int cod, i ;
+
+		printf("Qual o codigo do departamento? ");
+		scanf("%d", &cod);
+		for (i = 1;i <= contDep; i++) {
+			if (cod == controle[0][i]) {
+				break;
+			}
+		}
+			//1'
+
+			mostrarDados(controle[1][i]); // funcio que inicia o dep
+			if (prox[controle[1][i]] == -1){
+				return 0;
+			}
+			i =  controle[1][i];
+			//mostrarDados(prox[controle[1][i]]);
+
+	/* code */
+
+	while (i != -1){
+		if (i != 0) {
+			mostrarDados(prox[i]);
+			i = prox[i];
+		}else if (i =!-1||i == 0) {
+			break;
+		}
+
+
+		}
+			/* code */
+
+
+
+	}
 
 	//2. MENU DEPARTAMENTO e suas funcoes
 	//Objetivo: Mostrar o menu Departamento
@@ -654,7 +690,7 @@
 					break;
 					case 6: listarTodos(controle[1][0]);
 					break;
-					case 7: listarPorDept(controle[1][0]);
+					case 7: listarpordptinprox(contDep);
 					break;
 					//case 8:
 					//break;
